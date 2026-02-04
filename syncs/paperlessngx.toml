@@ -2,7 +2,6 @@
 name = "paperlessngx"
 [stack.config]
 server = "Local"
-git_account = "ClementPhan"
 repo = "ClementPhan/komodo-stacks"
 run_directory = "./stacks/paperlessngx"
 pre_deploy.command = """

@@ -2,7 +2,6 @@
 name = "homebox"
 [stack.config]
 server = "Local"
-git_account = "ClementPhan"
 repo = "ClementPhan/komodo-stacks"
 run_directory = "./stacks/homebox"
 pre_deploy.command = """

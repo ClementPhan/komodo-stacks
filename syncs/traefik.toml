@@ -3,7 +3,6 @@ name = "traefik"
 description = "Reverse proxy for home server"
 [stack.config]
 server = "Local"
-git_account = "ClementPhan"
 repo = "ClementPhan/komodo-stacks"
 run_directory = "./stacks/traefik"
 config_files = [

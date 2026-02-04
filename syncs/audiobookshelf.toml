@@ -2,7 +2,6 @@
 name = "audiobookshelf"
 [stack.config]
 server = "Local"
-git_account = "ClementPhan"
 repo = "ClementPhan/komodo-stacks"
 run_directory = "./stacks/audiobookshelf"
 config_files = [
