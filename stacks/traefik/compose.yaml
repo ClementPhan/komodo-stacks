@@ -1,0 +1,47 @@
+services:
+  traefik:
+    image: traefik:v3.6.7@sha256:a9890c898f379c1905ee5b28342f6b408dc863f08db2dab20e46c267d1ff463a
+    container_name: "traefik"
+    restart: always
+    ports:
+      - {{op://docker/TrueNas/config/services_ip}}:80:80
+      - {{op://docker/TrueNas/config/services_ip}}:443:443
+      - {{op://docker/TrueNas/config/services_ip}}:9080:9080
+      - {{op://docker/TrueNas/config/services_ip}}:9443:9443
+    environment:
+      - OVH_ENDPOINT=op://docker/ovh/server/endpoint
+      - OVH_APPLICATION_KEY=op://docker/ovh/secrets/app_key
+      - OVH_APPLICATION_SECRET=op://docker/ovh/secrets/app_secret
+      - OVH_CONSUMER_KEY=op://docker/ovh/secrets/consumer_key
+      - TRAEFIK_CERTIFICATESRESOLVERS_MYRESOLVER_ACME_EMAIL=op://docker/email/email/email
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/:/etc/traefik/:ro
+      - letsencrypt:/letsencrypt
+    labels:
+      traefik.enable: true
+      traefik.http.routers.traefik.rule: Host(`traefik.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.traefik.entrypoints: websecure
+      traefik.http.routers.traefik.tls.certresolver: myresolver
+      traefik.http.services.traefik.loadbalancer.server.port: 8080
+      # Homepage configuration
+      homepage.group: Network
+      homepage.name: Traefik
+      homepage.icon: traefik.svg
+      homepage.href: https://traefik.{{op://docker/home_address/url/url}}/
+      homepage.description: Local reverse proxy
+    networks:
+      traefik_proxy:
+        ipv4_address: 10.0.1.200
+
+volumes:
+  letsencrypt: null
+
+networks:
+  traefik_proxy:
+    name: traefik_proxy
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24
+          gateway: 10.0.1.1

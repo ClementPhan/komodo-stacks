@@ -1,0 +1,15 @@
+[[stack]]
+name = "traefik"
+description = "Reverse proxy for home server"
+[stack.config]
+server = "Local"
+git_account = "ClementPhan"
+repo = "ClementPhan/komodo-stacks"
+run_directory = "./stacks/traefik"
+config_files = [
+  { path = "config/traefik.yaml", requires = "Restart" },
+  { path = "config/file_provider/komodo.yaml" }
+]
+pre_deploy.command = """
+sh ../../inject.sh [[OP_CONNECT_TOKEN]]
+"""

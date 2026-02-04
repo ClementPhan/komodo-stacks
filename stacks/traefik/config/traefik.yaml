@@ -1,0 +1,55 @@
+# Dashboard
+api:
+  insecure: true
+  dashboard: true
+  disableDashboardAd: true
+
+log:
+  level: DEBUG
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: traefik_proxy
+  file:
+    directory: "/etc/traefik/file_provider"
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      middlewares:
+        - ip_allow_lan_and_vpn_middleware@file
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+    http:
+      middlewares:
+        - ip_allow_lan_and_vpn_middleware@file
+
+  ext_web:
+    address: ":9080"
+    http:
+      middlewares:
+        - ip_allow_github_webhooks_middleware@file
+      redirections:
+        entryPoint:
+          to: ext_websecure
+          scheme: https
+  ext_websecure:
+    address: ":9443"
+    http:
+      middlewares:
+        - ip_allow_github_webhooks_middleware@file
+
+certificatesresolvers:
+  myresolver:
+    acme:
+      storage: "/letsencrypt/acme.json"
+      # LetsEncrypt staging server :
+      # caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      dnsChallenge:
+        provider: ovh

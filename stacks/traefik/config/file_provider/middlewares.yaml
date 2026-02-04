@@ -1,0 +1,15 @@
+http:
+  middlewares:
+    ip_allow_github_webhooks_middleware:
+      ipAllowList:
+        sourceRange:
+          - "192.30.252.0/22"
+          - "185.199.108.0/22"
+          - "140.82.112.0/20"
+          - "143.55.64.0/20"
+    ip_allow_lan_and_vpn_middleware:
+      ipAllowList:
+        sourceRange:
+          - "{{op://docker/home_address/ip/subnet}}"
+          - "{{op://docker/home_address/ip/vpn_subnet}}"
+          - "{{op://docker/home_address/ip/traefik_proxy_subnet}}"

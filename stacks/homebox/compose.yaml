@@ -1,0 +1,37 @@
+services:
+  homebox:
+    image: ghcr.io/sysadminsmedia/homebox:0.23.1@sha256:facd9b795952602d5c54eacfcd0f3533040e6b556f461e423a2d2445ed8736f9
+#   image: ghcr.io/hay-kot/homebox:latest-rootless
+    container_name: homebox
+    restart: unless-stopped
+    environment:
+    - HBOX_LOG_LEVEL=info
+    - HBOX_LOG_FORMAT=text
+    - HBOX_WEB_MAX_UPLOAD_SIZE=10
+    volumes:
+      - /mnt/software/applications/homebox/data:/data/
+    # ports:
+    #   - 3100:7745
+    labels:
+      # Traefik configuration
+      traefik.enable: true
+      traefik.http.routers.homebox.rule: Host(`homebox.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.homebox.entrypoints: websecure
+      traefik.http.routers.homebox.tls.certresolver: myresolver
+      traefik.http.services.homebox.loadbalancer.server.port: 7745
+      docker-volume-backup.stop-during-backup: true
+      # Homepage configuration
+      homepage.group: Home Management
+      homepage.name: homebox
+      homepage.icon: homebox.svg
+      homepage.href: https://homebox.{{op://docker/home_address/url/url}}/
+      homepage.description: Asset tracking
+    networks:
+      traefik_proxy: {}
+
+networks:
+  traefik_proxy:
+    external: true
+
+volumes:
+   homebox-data:

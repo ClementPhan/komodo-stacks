@@ -1,0 +1,10 @@
+[[stack]]
+name = "peanut"
+[stack.config]
+server = "Local"
+git_account = "ClementPhan"
+repo = "ClementPhan/komodo-stacks"
+run_directory = "./stacks/peanut"
+pre_deploy.command = """
+sh ../../inject.sh [[OP_CONNECT_TOKEN]]
+"""

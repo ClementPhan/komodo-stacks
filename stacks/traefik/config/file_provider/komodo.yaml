@@ -1,0 +1,24 @@
+http:
+  # Add the router
+  routers:
+    komodo:
+      entryPoints: websecure
+      service: komodo
+      rule: Host(`komodo.{{op://docker/home_address/url/url}}`)
+      tls:
+        certresolver: myresolver
+
+    # Add the webhook router
+    komodo_webhooks:
+      entryPoints: ext_websecure
+      service: komodo
+      rule: Host(`komodo.external.{{op://docker/home_address/url/url}}`) && PathPrefix(`/listener`)
+      tls:
+        certresolver: myresolver
+
+  # Add the service
+  services:
+    komodo:
+      loadBalancer:
+        servers:
+          - url: http://services.mammouth.{{op://docker/home_address/url/url}}:30160

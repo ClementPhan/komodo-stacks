@@ -1,0 +1,153 @@
+# docker-compose file for running paperless from the Docker Hub.
+# This file contains everything paperless needs to run.
+# Paperless supports amd64, arm and arm64 hardware.
+#
+# All compose files of paperless configure paperless in the following way:
+#
+# - Paperless is (re)started on system boot, if it was running before shutdown.
+# - Docker volumes for storing data are managed by Docker.
+# - Folders for importing and exporting files are created in the same directory
+#   as this file and mounted to the correct folders inside the container.
+# - Paperless listens on port 8000.
+#
+# In addition to that, this docker-compose file adds the following optional
+# configurations:
+#
+# - Instead of SQLite (default), PostgreSQL is used as the database server.
+# - Apache Tika and Gotenberg servers are started with paperless and paperless
+#   is configured to use these services. These provide support for consuming
+#   Office documents (Word, Excel, Power Point and their LibreOffice counter-
+#   parts.
+#
+# To install and update paperless with this file, do the following:
+#
+# - Copy this file as 'docker-compose.yml' and the files 'docker-compose.env'
+#   and '.env' into a folder.
+# - Run 'docker compose pull'.
+# - Run 'docker compose up -d'.
+#
+# For more extensive installation and update instructions, refer to the
+# documentation.
+
+services:
+  broker:
+    image: docker.io/library/redis:8.4.0@sha256:c22af04bb576503bf16b3e34a1fd2fd82de0f765afd866d2e380145e0af30d78
+    restart: always
+    volumes:
+      - /mnt/software/applications/paperlessngx/redisdata:/data
+    labels:
+      - docker-volume-backup.stop-during-backup=true
+    networks:
+      - default
+
+  db:
+    image: docker.io/library/postgres:14.20@sha256:44b2944d4beb460aa7582fc2ae9f37bfee4a75788b76f2bf25312094029e4680
+    restart: always
+    volumes:
+      - /mnt/software/applications/paperlessngx/pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: paperless
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: paperless
+    labels:
+      - docker-volume-backup.stop-during-backup=true
+    networks:
+      - default
+
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.20.6@sha256:a28330462994b937938e02aaa5632a1effcc7f9acfba96c1bef9c50e1167a027
+    restart: always
+    depends_on:
+      - db
+      - broker
+      - gotenberg
+      - tika
+    ports:
+      - {{op://docker/TrueNas/config/services_ip}}:8001:8000
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -fs
+        - -S
+        - --max-time
+        - "2"
+        - http://localhost:8000
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - /mnt/software/applications/paperlessngx/data:/usr/src/paperless/data
+      - /mnt/software/applications/paperlessngx/media:/usr/src/paperless/media
+      - /mnt/software/applications/paperlessngx/export:/usr/src/paperless/export
+      - /mnt/software/applications/paperlessngx/consume:/usr/src/paperless/consume
+    env_file: compose.env
+    environment:
+      - PAPERLESS_REDIS=redis://broker:6379
+      - PAPERLESS_DBHOST=db
+      - PAPERLESS_TIKA_ENABLED=1
+      - PAPERLESS_TIKA_GOTENBERG_ENDPOINT=http://gotenberg:3000
+      - PAPERLESS_TIKA_ENDPOINT=http://tika:9998
+    labels:
+      # Traefik configuration
+      traefik.enable: true
+      traefik.http.routers.paperless.rule: Host(`paperless.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.paperless.entrypoints: websecure
+      traefik.http.routers.paperless.tls.certresolver: myresolver
+      traefik.http.services.paperless.loadbalancer.server.port: 8000
+      docker-volume-backup.stop-during-backup: true
+      # Homepage configuration
+      homepage.group: Media & Data
+      homepage.name: Paperless
+      homepage.icon: paperless-ngx.svg
+      homepage.href: https://paperless.{{op://docker/home_address/url/url}}/
+      homepage.description: Document management
+      homepage.widget.type: paperlessngx
+      homepage.widget.url: https://paperless.{{op://docker/home_address/url/url}}
+      homepage.widget.key: {{op://docker/paperless/secrets/token}}
+    networks:
+      default: {}
+      traefik_proxy: {}
+
+  gotenberg:
+    image: docker.io/gotenberg/gotenberg:8.26@sha256:328551506b3dec3ff6381dd47e5cd72a44def97506908269e201a8fbfa1c12c0
+    restart: always
+    # The gotenberg chromium route is used to convert .eml files. We do not
+    # want to allow external content like tracking pixels or even javascript.
+    command:
+      - "gotenberg"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=file:///tmp/.*"
+    networks:
+      - default
+
+  tika:
+    image: docker.io/apache/tika:latest
+    restart: unless-stopped
+    networks:
+      - default
+
+  sftp:
+    image: atmoz/sftp:debian@sha256:a70bbd62e513a2f688c7c7b27f750439bb012ef3e975481d13696c17269ee154
+    restart: always
+    volumes:
+        - /mnt/software/applications/paperlessngx/consume:/home/paperless/consume
+        - ${PWD}/sftp_config/paperless/id_rsa.pub:/home/paperless/.ssh/keys/id_rsa.pub:ro
+        - ${PWD}/sftp_config/sshd_config:/etc/ssh/sshd_config:ro
+        - ${PWD}/sftp_config/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key:ro
+        - ${PWD}/sftp_config/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key:ro
+    ports:
+        - {{op://docker/TrueNas/config/services_ip}}:2552:22
+    command: paperless::1000
+
+volumes:
+  data: null
+  media: null
+  pgdata: null
+  consume: null
+  redisdata: null
+
+networks:
+  default: {}
+  traefik_proxy:
+    external: true

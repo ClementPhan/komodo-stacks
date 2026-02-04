@@ -1,0 +1,73 @@
+name: audiobookshelf
+
+services:
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:2.32.1@sha256:a52dc5db694a5bf041ce38f285dd6c6a660a4b1b21e37ad6b6746433263b2ae5 
+    # ports:
+    #   - 13378:80
+    volumes:
+      - /mnt/bulk/media/audio/audiobooks:/audiobooks
+      - /mnt/bulk/media/audio/podcasts:/podcasts
+      - /mnt/software/applications/audiobookshelf/config:/config
+      - /mnt/software/applications/audiobookshelf/metadata:/metadata
+    environment:
+      - TZ=Europe/Paris
+    restart: always
+    labels:
+      traefik.enable: true
+      traefik.http.routers.audiobookshelf.rule: Host(`audiobookshelf.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.audiobookshelf.entrypoints: websecure
+      traefik.http.routers.audiobookshelf.tls.certresolver: myresolver
+      traefik.http.services.audiobookshelf.loadbalancer.server.port: 80
+      # Homepage configuration
+      homepage.group: Media & Data
+      homepage.name: Audiobookshelf
+      homepage.icon: audiobookshelf.svg
+      homepage.href: https://audiobookshelf.{{op://docker/home_address/url/url}}/
+      homepage.description: Audiobook and podcast repository
+      homepage.widget.type: audiobookshelf
+      homepage.widget.url: https://audiobookshelf.{{op://docker/home_address/url/url}}
+      homepage.widget.key: {{op://docker/audiobookshelf/api/key}}
+    networks:
+      traefik_proxy: {}
+    
+  libation:
+    image: rmcrackan/libation:13.1.8@sha256:e49a4cad8fd4ab2342656a5e472c980fed92dae84a00977253ccb7c5a8b51c87
+    restart: always
+    user: 0:0
+    volumes:
+      - ${PWD}/config:/config
+      - /mnt/bulk/media/audio/audiobooks/libation:/data
+      - /mnt/software/applications/audiobookshelf/libation_db:/db
+    environment:
+      - SLEEP_TIME=1h
+
+  pinchflat:
+    image: ghcr.io/kieraneglin/pinchflat:latest@sha256:01b4f98aabaf3f5fe394213f7a32578c9e84e42080f52e2f8334021a4473b202 
+    environment:
+      - "TZ=Europe/Paris"
+    # ports:
+    #   - 8945:8945
+    volumes:
+      - /mnt/software/applications/audiobookshelf/pinchflat_config:/config
+      - /mnt/bulk/media/audio/podcasts:/downloads
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pinchflat.rule: Host(`pinchflat.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.pinchflat.entrypoints: websecure
+      traefik.http.routers.pinchflat.tls.certresolver: myresolver
+      traefik.http.services.pinchflat.loadbalancer.server.port: 8945
+      # Homepage configuration
+      homepage.group: Media & Data
+      homepage.name: PinchFlat
+      homepage.icon: pinchflat.png
+      homepage.href: https://pinchflat.{{op://docker/home_address/url/url}}/
+      homepage.description: YouTube downloader
+    networks:
+      traefik_proxy: {}
+
+
+networks:
+  traefik_proxy:
+    external: true
+      

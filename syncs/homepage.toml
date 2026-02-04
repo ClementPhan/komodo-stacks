@@ -1,0 +1,18 @@
+[[stack]]
+name = "homepage"
+[stack.config]
+server = "Local"
+git_account = "ClementPhan"
+repo = "ClementPhan/komodo-stacks"
+run_directory = "stacks/homepage"
+config_files = [
+  { path = "config/bookmarks.yaml", services = ["homepage"], requires = "Restart" },
+  { path = "config/docker.yaml", services = ["homepage"], requires = "Restart" },
+  { path = "config/kubernetes.yaml", services = ["homepage"], requires = "Restart" },
+  { path = "config/services.yaml", services = ["homepage"], requires = "Restart" },
+  { path = "config/settings.yaml", services = ["homepage"], requires = "Restart" }
+]
+pre_deploy.command = """
+sh ../../inject.sh [[OP_CONNECT_TOKEN]]
+"""
+

@@ -1,0 +1,12 @@
+{
+  "AutoScan": true,
+  "StripUnabridged": true,
+  "DownloadSpeedLimit": 0,
+  "BadBook": "Retry",
+  "SplitFilesByChapter": false,
+  "StripAudibleBrandAudio": true,
+  "DecryptToLossy": false,
+  "RequestSpatial": false,
+  "CreateCueSheet": true,
+  "MoveMoovToBeginning": true
+}

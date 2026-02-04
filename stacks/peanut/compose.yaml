@@ -1,0 +1,34 @@
+services:
+  peanut:
+    image: brandawg93/peanut:5.21.2@sha256:b613c7e1421911c928ed7b10ad16888a56c9d8eb9c51c43c4452d3ab8ea08c22
+    container_name: PeaNUT
+    restart: unless-stopped
+    volumes:
+      - $PWD/config:/config
+    # ports:
+    #   - 8080:8080
+    environment:
+      - WEB_PORT=8080
+    labels:
+      # Traefik configuration
+      traefik.enable: true
+      traefik.http.routers.peanut.rule: Host(`peanut.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.peanut.entrypoints: websecure
+      traefik.http.routers.peanut.tls.certresolver: myresolver
+      traefik.http.services.peanut.loadbalancer.server.port: 8080
+      docker-volume-backup.stop-during-backup: true
+      # Homepage configuration
+      homepage.group: Network
+      homepage.name: PeaNUT
+      homepage.icon: peanut.svg
+      homepage.href: https://peanut.{{op://docker/home_address/url/url}}/
+      homepage.description: UPS status
+      homepage.widget.type: peanut
+      homepage.widget.url: https://peanut.{{op://docker/home_address/url/url}}
+      homepage.widget.key: ups
+    networks:
+      traefik_proxy: {}
+
+networks:
+  traefik_proxy:
+    external: true

@@ -1,0 +1,4 @@
+layout:
+  Network:
+    Emergency:
+      initiallyCollapsed: true

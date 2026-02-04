@@ -1,0 +1,15 @@
+[[stack]]
+name = "paperlessngx"
+[stack.config]
+server = "Local"
+git_account = "ClementPhan"
+repo = "ClementPhan/komodo-stacks"
+run_directory = "./stacks/paperlessngx"
+pre_deploy.command = """
+sh ../../inject.sh [[OP_CONNECT_TOKEN]]
+chmod 600 sftp_config/ssh_host_rsa_key
+chmod 600 sftp_config/ssh_host_ed25519_key
+"""
+config_files = [
+  { path = "sftp_config/sshd_config", services = ["sftp"], requires = "Restart" }
+]
