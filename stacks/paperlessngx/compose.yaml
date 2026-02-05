@@ -44,7 +44,7 @@ services:
     image: docker.io/library/postgres:18.1@sha256:1090bc3a8ccfb0b55f78a494d76f8d603434f7e4553543d6e807bc7bd6bbd17f
     restart: always
     volumes:
-      - /mnt/software/applications/paperlessngx/pgdata:/var/lib/postgresql/data
+      - /mnt/software/applications/paperlessngx/pgdata:/var/lib/postgresql
     environment:
       POSTGRES_DB: paperless
       POSTGRES_USER: paperless
