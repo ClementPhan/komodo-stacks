@@ -41,7 +41,7 @@ services:
       - default
 
   db:
-    image: docker.io/library/postgres:14.20@sha256:44b2944d4beb460aa7582fc2ae9f37bfee4a75788b76f2bf25312094029e4680
+    image: docker.io/library/postgres:14.20@sha256:062b02051873a101837543675b5b4601cba06b1972d22f4b7969adbde5a280e4
     restart: always
     volumes:
       - /mnt/software/applications/paperlessngx/pgdata:/var/lib/postgresql/data
