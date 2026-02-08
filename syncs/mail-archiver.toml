@@ -1,0 +1,10 @@
+[[stack]]
+name = "mail-archiver"
+[stack.config]
+server = "Local"
+repo = "ClementPhan/komodo-stacks"
+branch = "main"
+run_directory = "stacks/mail-archiver"
+pre_deploy.command = """
+sh ../../inject.sh [[OP_CONNECT_TOKEN]]
+"""
