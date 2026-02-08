@@ -1,0 +1,61 @@
+services:
+  mailarchive-app:
+    image: s1t5/mailarchiver:2601.3
+    restart: always
+    environment:
+      # Database Connection
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=MailArchiver;Username=mailuser;Password={{op://docker/mail-archiver/postgres/password}};
+
+      # Authentication Settings
+      - Authentication__Username=admin
+      - Authentication__Password={{op://docker/mail-archiver/password}}
+
+      # TimeZone Settings
+      - TimeZone__DisplayTimeZoneId=Europe/Paris
+    # ports:
+    #   - "5000:5000"
+    labels:
+      # Traefik configuration
+      traefik.enable: true
+      traefik.http.routers.mail-archiver.rule: Host(`mail-archiver.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.mail-archiver.entrypoints: websecure
+      traefik.http.routers.mail-archiver.tls.certresolver: myresolver
+      traefik.http.services.mail-archiver.loadbalancer.server.port: 5000
+      # Homepage configuration
+      homepage.group: Home Management
+      homepage.name: Mail Archiver
+      homepage.icon: mail-archiver.svg
+      homepage.href: https://mail-archiver.{{op://docker/home_address/url/url}}/
+      homepage.description: Mail Archiving
+    networks:
+      postgres: {}
+      traefik_proxy: {}
+    volumes:
+      - /mnt/software/applications/mail-archiver/data-protection-keys:/app/DataProtection-Keys
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+
+  postgres:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: MailArchiver
+      POSTGRES_USER: mailuser
+      POSTGRES_PASSWORD: "{{op://docker/mail-archiver/postgres/password}}"
+    volumes:
+      - /mnt/software/applications/mail-archiver/postgres-data:/var/lib/postgresql/data
+    networks:
+      - postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mailuser -d MailArchiver"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+networks:
+  postgres:
+  traefik_proxy:
+    external: true
