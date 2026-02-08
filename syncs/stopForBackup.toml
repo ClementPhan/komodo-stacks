@@ -1,0 +1,10 @@
+[[action]]
+name = "Stop for backup"
+[action.config]
+schedule = "Every day at 04:59"
+file_contents = """
+// Run actions using the pre initialized 'komodo' client.
+console.log('Stopping all containers...');
+const response: Types.Update = await komodo.execute('StopAllContainers', {server: 'Local'});
+console.log(response.success);
+"""
