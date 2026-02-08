@@ -10,4 +10,4 @@ find . \( \( -type d -name .git -prune \) -o -type f \) -a \( -name '*.yaml' -o 
 find . \( \( -type d -name .git -prune \) -o -type f \) -a \( -name '*.yaml' -o -name '*.env' \) -exec sed -i -e 's@\({{\)\?op://docker/TrueNas/config/services_ip\(}}\)\?@10.0.0.0@g' {} \;
 
 # Replace any remaining secret with 'DUMMY_SECRET'
-find . \( \( -type d -name .git -prune \) -o -type f \) -a \( -name '*.yaml' -o -name '*.env' \) -exec sed -i -e 's@\({{\)\?op://docker/.*\(}}\)\?@10.0.0.0@g' {} \;
+find . \( \( -type d -name .git -prune \) -o -type f \) -a \( -name '*.yaml' -o -name '*.env' \) -exec sed -i -e 's@\({{\)\?op://docker/[a-zA-Z0-9/\-]*\(}}\)\?@DUMMY_SECRET@g' {} \;
