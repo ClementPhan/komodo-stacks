@@ -24,3 +24,9 @@ services:
       homepage.icon: bichon.svg
       homepage.href: https://bichon.{{op://docker/home_address/url/url}}/
       homepage.description: Email Archiving
+    networks:
+      traefik_proxy: null
+
+networks:
+  traefik_proxy:
+    external: true
