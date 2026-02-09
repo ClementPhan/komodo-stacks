@@ -6,7 +6,7 @@ services:
     #   - "15630:15630"
     volumes:
       - /mnt/software/applications/bichon/data:/data
-    user: "1000:1000"
+    user: "0:0"
     environment:
       BICHON_ROOT_DIR: /data
       BICHON_LOG_LEVEL: info
