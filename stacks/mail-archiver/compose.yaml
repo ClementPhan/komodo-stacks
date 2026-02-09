@@ -8,7 +8,7 @@ services:
 
       # Authentication Settings
       - Authentication__Username=admin
-      - Authentication__Password={{op://docker/mail-archiver/password}}
+      - Authentication__Password={{op://docker/mail-archiver/initial_config/password}}
 
       # TimeZone Settings
       - TimeZone__DisplayTimeZoneId=Europe/Paris
