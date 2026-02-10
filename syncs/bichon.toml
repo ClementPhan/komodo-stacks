@@ -1,9 +1,0 @@
-[[stack]]
-name = "bichon"
-[stack.config]
-server = "Local"
-repo = "ClementPhan/komodo-stacks"
-run_directory = "./stacks/bichon"
-pre_deploy.command = """
-sh ../../inject.sh [[OP_CONNECT_TOKEN]]
-"""
