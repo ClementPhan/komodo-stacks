@@ -42,31 +42,6 @@ services:
     environment:
       - SLEEP_TIME=24h
 
-  pinchflat:
-    image: ghcr.io/kieraneglin/pinchflat:latest@sha256:01b4f98aabaf3f5fe394213f7a32578c9e84e42080f52e2f8334021a4473b202 
-    environment:
-      - "TZ=Europe/Paris"
-    # ports:
-    #   - 8945:8945
-    volumes:
-      - /mnt/software/applications/audiobookshelf/pinchflat_config:/config
-      - /mnt/bulk/media/audio/podcasts:/downloads
-    labels:
-      traefik.enable: true
-      traefik.http.routers.pinchflat.rule: Host(`pinchflat.{{op://docker/home_address/url/url}}`)
-      traefik.http.routers.pinchflat.entrypoints: websecure
-      traefik.http.routers.pinchflat.tls.certresolver: myresolver
-      traefik.http.services.pinchflat.loadbalancer.server.port: 8945
-      # Homepage configuration
-      homepage.group: Media & Data
-      homepage.name: PinchFlat
-      homepage.icon: pinchflat.png
-      homepage.href: https://pinchflat.{{op://docker/home_address/url/url}}/
-      homepage.description: YouTube downloader
-    networks:
-      traefik_proxy: {}
-
-
 networks:
   traefik_proxy:
     external: true
