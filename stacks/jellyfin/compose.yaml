@@ -1,0 +1,50 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    # Optional - specify the uid and gid you would like Jellyfin to use instead of root
+    # user: uid:gid
+    group_add:
+      - '122'
+    ports:
+      # - 8096:8096/tcp
+      - 7359:7359/udp
+    volumes:
+      - /mnt/software/applications/jellyfin/config:/config
+      - /mnt/software/applications/jellyfin/cache:/cache
+      - /mnt/bulk/media/video/films:/media/films
+      - /mnt/bulk/media/video/series:/media/series
+      # Optional - extra fonts to be used during transcoding with subtitle burn-in
+      # - type: bind
+      #   source: /path/to/fonts
+      #   target: /usr/local/share/fonts/custom
+      #   read_only: true
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    restart: 'unless-stopped'
+    # Optional - alternative address used for autodiscovery
+    environment:
+      - JELLYFIN_PublishedServerUrl=https://jellyfin.{{op://docker/home_address/url/url}}
+    # Optional - may be necessary for docker healthcheck to pass if running in host network mode
+    # extra_hosts:
+    #   - 'host.docker.internal:host-gateway'
+    labels:
+      # Traefik configuration
+      traefik.enable: true
+      traefik.http.routers.jellyfin.rule: Host(`jellyfin.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.jellyfin.entrypoints: websecure
+      traefik.http.routers.jellyfin.tls.certresolver: myresolver
+      traefik.http.services.jellyfin.loadbalancer.server.port: 8096
+      docker-volume-backup.stop-during-backup: true
+      # Homepage configuration
+      homepage.group: Media & Data
+      homepage.name: Jellyfin
+      homepage.icon: jellyfin.svg
+      homepage.href: https://jellyfin.{{op://docker/home_address/url/url}}/
+      homepage.description: Media server
+    networks:
+      traefik_proxy: {}
+
+networks:
+  traefik_proxy:
+    external: true

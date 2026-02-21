@@ -1,0 +1,9 @@
+[[stack]]
+name = "jellyfin"
+[stack.config]
+server = "Local"
+repo = "ClementPhan/komodo-stacks"
+run_directory = "./stacks/jellyfin"
+pre_deploy.command = """
+sh ../../inject.sh [[OP_CONNECT_TOKEN]]
+"""
