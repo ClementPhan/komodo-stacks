@@ -7,7 +7,7 @@ services:
     #   - 8945:8945
     volumes:
       - /mnt/software/applications/audiobookshelf/pinchflat_config:/config
-      - /mnt/bulk/media/audio/podcasts:/downloads
+      - /mnt/bulk/media/audio/podcasts/pinchflat:/downloads/podcasts
     labels:
       traefik.enable: true
       traefik.http.routers.pinchflat.rule: Host(`pinchflat.{{op://docker/home_address/url/url}}`)
