@@ -1,6 +1,6 @@
 services:
   mailarchive-app:
-    image: s1t5/mailarchiver:2602.2
+    image: s1t5/mailarchiver:2602.3
     restart: always
     environment:
       # Database Connection
