@@ -8,6 +8,7 @@ services:
     volumes:
       - /mnt/software/applications/audiobookshelf/pinchflat_config:/config
       - /mnt/bulk/media/audio/podcasts/pinchflat:/downloads/podcasts
+      - /mnt/bulk/media/video/youtube:/downloads/youtube
     labels:
       traefik.enable: true
       traefik.http.routers.pinchflat.rule: Host(`pinchflat.{{op://docker/home_address/url/url}}`)
