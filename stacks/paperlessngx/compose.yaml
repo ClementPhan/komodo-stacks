@@ -122,7 +122,7 @@ services:
       - default
 
   tika:
-    image: docker.io/apache/tika:latest
+    image: docker.io/apache/tika:3.2.3.0@sha256:c0154cb95587cde64be74f35ada1a2bd7892219f3f0ac3c9dc6cab34046b3573
     restart: unless-stopped
     networks:
       - default

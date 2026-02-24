@@ -1,6 +1,6 @@
 services:
   actual:
-    image: ghcr.io/actualbudget/actual:26.2.1
+    image: ghcr.io/actualbudget/actual:26.2.1@sha256:ea21a0b6243797d35ef6c4a8713c87efaba8fec3b3663220fa3af61f352fba5e
     restart: always
     # ports:
     #   - '5006:5006'
