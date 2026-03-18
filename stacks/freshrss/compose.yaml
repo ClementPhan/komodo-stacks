@@ -13,7 +13,7 @@ services:
     environment:
       TZ: Europe/Paris
       CRON_MIN: '3,33'
-      TRUSTED_PROXY: 172.16.0.1/12
+      TRUSTED_PROXY: 10.0.1.200
     # ports:
       # If you want to open a port 8080 on the local machine:
       # - "8080:80"
