@@ -23,7 +23,7 @@ services:
       traefik.http.routers.freshrss.rule: Host(`freshrss.{{op://docker/home_address/url/url}}`)
       traefik.http.routers.freshrss.entrypoints: websecure
       traefik.http.routers.freshrss.tls.certresolver: myresolver
-      traefik.http.services.freshrss.loadbalancer.server.port: 8080
+      traefik.http.services.freshrss.loadbalancer.server.port: 80
       docker-volume-backup.stop-during-backup: true
       # Homepage configuration
       homepage.group: Media & Data
