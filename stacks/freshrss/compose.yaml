@@ -14,6 +14,17 @@ services:
       TZ: Europe/Paris
       CRON_MIN: '3,33'
       TRUSTED_PROXY: 10.0.1.200
+      FRESHRSS_INSTALL: |-
+        --api-enabled
+        --base-url ${BASE_URL}
+        --default-user {{op://docker/freshrss/username}}
+        --language en
+      FRESHRSS_USER: |-
+        --api-password ${ADMIN_API_PASSWORD}
+        --email ${ADMIN_EMAIL}
+        --language en
+        --password ${ADMIN_PASSWORD}
+        --user {{op://docker/freshrss/username}}
     # ports:
       # If you want to open a port 8080 on the local machine:
       # - "8080:80"
@@ -31,6 +42,7 @@ services:
       homepage.icon: freshrss
       homepage.href: https://freshrss.{{op://docker/home_address/url/url}}/
       homepage.description: RSS feed reader
+
 
     healthcheck:
       test: ["CMD", "cli/health.php"]
