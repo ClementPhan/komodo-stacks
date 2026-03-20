@@ -1,0 +1,29 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    restart: unless-stopped
+    environment:
+      - "TZ=Europe/Paris"
+    # ports:
+    #   - 8945:8945
+    volumes:
+      - /mnt/software/applications/uptime-kuma/data:/app/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.uptime-kuma.rule: Host(`uptime-kuma.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.uptime-kuma.entrypoints: websecure
+      traefik.http.routers.uptime-kuma.tls.certresolver: myresolver
+      traefik.http.services.uptime-kuma.loadbalancer.server.port: 3001
+      # Homepage configuration
+      homepage.group: Network
+      homepage.name: Uptime-Kuma
+      homepage.icon: uptime-kuma
+      homepage.href: https://uptime-kuma.{{op://docker/home_address/url/url}}/
+      homepage.description: Uptime monitor
+    networks:
+      traefik_proxy: {}
+
+
+networks:
+  traefik_proxy:
+    external: true
