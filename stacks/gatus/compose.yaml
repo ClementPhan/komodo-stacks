@@ -32,7 +32,7 @@ services:
   postgres:
     image: docker.io/library/postgres:18.3@sha256:a9abf4275f9e99bff8e6aed712b3b7dfec9cac1341bba01c1ffdfce9ff9fc34a
     volumes:
-      - /mnt/software/applications/gatus/db:/var/lib/postgresql/data
+      - /mnt/software/applications/gatus/pgdata:/var/lib/postgresql
     # ports:
     #   - "5432:5432"
     environment:
