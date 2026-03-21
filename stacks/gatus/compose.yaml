@@ -1,0 +1,49 @@
+services:
+  gatus:
+    image: twinproduction/gatus:latest
+    restart: always
+    # ports:
+    #   - "8080:8080"
+    environment:
+      - POSTGRES_USER=gatus_user
+      - POSTGRES_PASSWORD={{op://docker/gatus/postgres/password}}
+      - POSTGRES_DB=gatus
+    volumes:
+      - ./config:/config
+    
+    labels:
+      traefik.enable: true
+      traefik.http.routers.gatus.rule: Host(`gatus.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.gatus.entrypoints: websecure
+      traefik.http.routers.gatus.tls.certresolver: myresolver
+      traefik.http.services.gatus.loadbalancer.server.port: 8080
+      # Homepage configuration
+      homepage.group: Network
+      homepage.name: Gatus
+      homepage.icon: gatus
+      homepage.href: https://gatus.{{op://docker/home_address/url/url}}/
+      homepage.description: Uptime monitor
+    networks:
+      - traefik_proxy
+      - default
+    depends_on:
+      - postgres
+
+  postgres:
+    image: docker.io/library/postgres:18.3@sha256:a9abf4275f9e99bff8e6aed712b3b7dfec9cac1341bba01c1ffdfce9ff9fc34a
+    volumes:
+      - /mnt/software/applications/gatus/db:/var/lib/postgresql/data
+    # ports:
+    #   - "5432:5432"
+    environment:
+      - POSTGRES_DB=gatus
+      - POSTGRES_USER=gatus_user
+      - POSTGRES_PASSWORD={{op://docker/gatus/postgres/password}}
+    networks:
+      - default
+
+networks:
+  traefik_proxy:
+    external: true
+  default:
+    
