@@ -1,0 +1,26 @@
+storage:
+  type: postgres
+  path: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable"
+
+endpoints:
+  - name: Komodo
+    group: core
+    url: "https://komodo.{{op://docker/home_address/url/url}}"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+
+  - name: idrac
+    group: internal
+    url: "https://idrac.{{op://docker/home_address/url/url}}"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+
+  - name: Gul
+    group: internal
+    url: "https://gul.{{op://docker/home_address/url/url}}"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+
