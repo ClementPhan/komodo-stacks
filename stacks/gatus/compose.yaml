@@ -10,7 +10,7 @@ services:
       - POSTGRES_DB=gatus
     volumes:
       - ./config:/config
-    
+      - ${PWD}/lets-encrypt.pem:/etc/ssl/certs/lets-encrypt.pem:ro
     labels:
       traefik.enable: true
       traefik.http.routers.gatus.rule: Host(`gatus.{{op://docker/home_address/url/url}}`)
