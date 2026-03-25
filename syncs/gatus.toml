@@ -4,6 +4,10 @@ name = "gatus"
 server = "Local"
 repo = "ClementPhan/komodo-stacks"
 run_directory = "./stacks/gatus"
+config_files = [
+  { path = "config/config.yaml", services = ["gatus"] },
+  { path = "lets-encrypt.pem", services = ["gatus"], requires = "Redeploy" }
+]
 pre_deploy.command = """
 sh ../../inject.sh [[OP_CONNECT_TOKEN]]
 """
