@@ -52,7 +52,7 @@ services:
       traefik.http.routers.authelia.entrypoints: websecure
       traefik.http.routers.authelia.tls.certresolver: myresolver
       ## Setup Authelia ForwardAuth Middlewares
-      traefik.http.middlewares.authelia.forwardAuth.address: 'https://authelia:9091/api/authz/forward-auth'
+      traefik.http.middlewares.authelia.forwardAuth.address: 'http://authelia:9091/api/authz/forward-auth'
       traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: 'true'
       traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: 'Remote-User,Remote-Groups,Remote-Name,Remote-Email'
     environment:
