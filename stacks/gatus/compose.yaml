@@ -8,6 +8,7 @@ services:
       - POSTGRES_USER=gatus_user
       - POSTGRES_PASSWORD={{op://docker/gatus/postgres/password}}
       - POSTGRES_DB=gatus
+      - GATUS_LOG_LEVEL=DEBUG
     volumes:
       - ./config:/config
       - ${PWD}/lets-encrypt.pem:/etc/ssl/certs/lets-encrypt.pem:ro
