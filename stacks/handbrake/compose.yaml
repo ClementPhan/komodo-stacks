@@ -18,6 +18,7 @@ services:
       - TZ=Europe/Paris
       - KEEP_APP_RUNNING=1
       - AUTOMATED_CONVERSION_OUTPUT_SUBDIR=SAME_AS_SRC
+      - AUTOMATED_CONVERSION_PRESET=My Persets/BR_1K_DVD
     labels:
       # Traefik configuration
       traefik.enable: true
