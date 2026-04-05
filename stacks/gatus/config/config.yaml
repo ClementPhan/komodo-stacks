@@ -24,3 +24,8 @@ endpoints:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
 
+  - name: Box
+    group: Network
+    url: "http://box.{{op://docker/home_address/url/url}}"
+    conditions:
+      - "[STATUS] == 200"
