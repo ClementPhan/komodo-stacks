@@ -26,6 +26,6 @@ endpoints:
 
   - name: Box
     group: Network
-    url: "https://box.{{op://docker/home_address/url/url}}"
+    url: "http://box.{{op://docker/home_address/url/url}}"
     conditions:
       - "[STATUS] == 200"
