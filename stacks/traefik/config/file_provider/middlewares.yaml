@@ -13,3 +13,4 @@ http:
           - "{{op://docker/home_address/ip/subnet}}"
           - "{{op://docker/home_address/ip/vpn_subnet}}"
           - "{{op://docker/home_address/ip/traefik_proxy_subnet}}"
+          - "{{op://docker/home_address/ip/internal_docker}}"
