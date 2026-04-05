@@ -1,0 +1,40 @@
+services:
+  handbrake:
+    image: jlesage/handbrake
+    container_name: handbrake
+    # ports:
+    #   - 5800:5800/tcp
+    volumes:
+      - ./storage:/storage:ro
+      - /mnt/software/applications/handbrake/config:/config
+      - /mnt/bulk/media/video/ingress/BR_1K_DVD:/watch
+      - /mnt/bulk/media/video/ingress/BR_2K:/watch2
+      - /mnt/bulk/media/video/ingress/BR_4K:/watch3
+      - /mnt/bulk/media/video/series:/output/series
+      - /mnt/bulk/media/video/films:/output/films
+    restart: 'unless-stopped'
+    # Optional - alternative address used for autodiscovery
+    environment:
+      - TZ=Europe/Paris
+      - KEEP_APP_RUNNING=1
+      - AUTOMATED_CONVERSION_OUTPUT_SUBDIR=SAME_AS_SRC
+    labels:
+      # Traefik configuration
+      traefik.enable: true
+      traefik.http.routers.handbrake.rule: Host(`handbrake.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.handbrake.entrypoints: websecure
+      traefik.http.routers.handbrake.tls.certresolver: myresolver
+      traefik.http.services.handbrake.loadbalancer.server.port: 5800
+      docker-volume-backup.stop-during-backup: true
+      # Homepage configuration
+      homepage.group: Media & Data
+      homepage.name: HandBrake
+      homepage.icon: handbrake
+      homepage.href: https://handbrake.{{op://docker/home_address/url/url}}/
+      homepage.description: Video transcoder
+    networks:
+      traefik_proxy: {}
+
+networks:
+  traefik_proxy:
+    external: true
