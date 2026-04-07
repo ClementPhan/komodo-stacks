@@ -13,6 +13,7 @@ services:
       - /mnt/software/applications/jellyfin/config:/config
       - /mnt/software/applications/jellyfin/cache:/cache
       - /mnt/bulk/media/video/films:/media/films
+      - /mnt/bulk/media/video/ingress:/media/ingress
       - /mnt/bulk/media/video/series:/media/series
       - /mnt/bulk/media/video/youtube:/media/youtube
       # Optional - extra fonts to be used during transcoding with subtitle burn-in
