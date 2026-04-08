@@ -4,11 +4,8 @@ services:
     restart: always
     # ports:
     #   - "8080:8080"
-    environment:
-      - POSTGRES_USER=gatus_user
-      - POSTGRES_PASSWORD={{op://docker/gatus/postgres/password}}
-      - POSTGRES_DB=gatus
     volumes:
+      - /mnt/software/applications/gatus/data:/data/
       - ./config:/config
       - ${PWD}/lets-encrypt.pem:/etc/ssl/certs/lets-encrypt.pem:ro
     labels:
@@ -25,25 +22,8 @@ services:
       homepage.description: Uptime monitor
     networks:
       - traefik_proxy
-      - default
-    depends_on:
-      - postgres
-
-  postgres:
-    image: docker.io/library/postgres:18.3@sha256:ddbc320a9ad558c01c719248108e607eadde92fea799fec799028cfb2fab7319
-    volumes:
-      - /mnt/software/applications/gatus/pgdata:/var/lib/postgresql
-    # ports:
-    #   - "5432:5432"
-    environment:
-      - POSTGRES_DB=gatus
-      - POSTGRES_USER=gatus_user
-      - POSTGRES_PASSWORD={{op://docker/gatus/postgres/password}}
-    networks:
-      - default
 
 networks:
   traefik_proxy:
     external: true
-  default:
     
