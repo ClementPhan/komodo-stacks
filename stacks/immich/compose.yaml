@@ -12,7 +12,7 @@ name: immich
 services:
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v2.7.3@sha256:00cd2d57e4d9310a4aeac3c23f249af1eadbc1802746e1178589ef0a49374cef
+    image: ghcr.io/immich-app/immich-server:v2.7.4@sha256:040b2fed8f7f6b7405f9b4b26348b4656355e4d4ed0852b8e966d453dd6635cc
     extends:
       file: hwaccel.transcoding.yaml
       service: quicksync # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
@@ -57,7 +57,7 @@ services:
     # For hardware acceleration, add one of -[armnn, cuda, rocm, openvino, rknn] to the image tag.
     # Example tag: ${IMMICH_VERSION:-release}-cuda
     # image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
-    image: ghcr.io/immich-app/immich-machine-learning:v2.7.3-openvino@sha256:1bc97a21569291daa291a004f3ce36c03e593709afbaee6c60eb6b2b44d31485
+    image: ghcr.io/immich-app/immich-machine-learning:v2.7.4-openvino@sha256:a11f3a2075f7615bc4e628f52a673a7c791b686eff609992db09bcb06aabf552
     extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/ml-hardware-acceleration
       file: hwaccel.ml.yaml
       service: openvino # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
