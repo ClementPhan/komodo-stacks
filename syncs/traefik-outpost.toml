@@ -1,6 +1,7 @@
 [[stack]]
 name = "traefik-outpost"
 description = "Reverse proxy for home server"
+tags = ["auto-start"]
 [stack.config]
 server = "outpost"
 repo = "ClementPhan/komodo-stacks"

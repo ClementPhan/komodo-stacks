@@ -1,5 +1,6 @@
 [[stack]]
 name = "peanut"
+tags = ["auto-start"]
 [stack.config]
 server = "Local"
 repo = "ClementPhan/komodo-stacks"

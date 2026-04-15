@@ -1,5 +1,6 @@
 [[stack]]
 name = "handbrake"
+tags = ["auto-start"]
 [stack.config]
 server = "Local"
 repo = "ClementPhan/komodo-stacks"
