@@ -1,0 +1,96 @@
+[[action]]
+name = "Stop tagged \"auto-stop\""
+[action.config]
+schedule = "Every day at 04:59"
+file_contents = """
+// Variables
+const TAG = 'auto-stop';
+const MAX_WAIT_TIME = 0.5 * 60 * 1000; // 0.5 minutes
+const COMMAND = 'StopStack'
+
+// Error tracking
+let errors: any[] = [];
+
+// Helper: ensure a tag exists and return its ID
+async function getOrCreateTag(tagName: string) {
+  const tags = await komodo.read('ListTags', {});
+  const existing = tags.find(t => t.name === tagName);
+
+  if (existing) return existing._id.$oid;
+  
+  try {
+    const tagInfo = await komodo.write('CreateTag', { name: tagName });
+    return tagInfo._id.$oid;
+  } catch(e) {
+    console.log(`⚠️ Failed to create tag "${tagName}":`, e);
+    errors.push(e);
+    return null;
+  }
+}
+
+// *COMMAND* all stacks with the tag
+async function startCommandOnStacks() {
+  const autoTagId = await getOrCreateTag(TAG);
+
+  if (!autoTagId) return;
+  // Fetch all stacks that have the tag
+  const stacks = await komodo.read('ListStacks', { query: { tags: [TAG] } });
+
+  // Step 1: Fire ALL stop commands and track their Update objects
+  const updates = await Promise.all(
+    stacks.map(async (stack) => {
+      try {
+        console.log(`🚀 Launching ${COMMAND} on stack "${stack.name}"...`);
+        const update = await komodo.execute(COMMAND, { stack: stack.id });
+        return { stack, update };
+      } catch (e) {
+        console.log(`⚠️ Failed to launch ${COMMAND} on stack "${stack.name}":`, e);
+        errors.push(e);
+        return { stack, update: null }; // Mark as failed
+      }
+    })
+  );
+
+  // Step 2: Wait for ALL updates to reach "Complete" status (with timeout)
+  // See doc : https://docs.rs/komodo_client/latest/komodo_client/entities/update/struct.Update.html
+  const waitForCompletion = async ({ stack, update }) => {
+    if (!update) return; // Skip if the command failed earlier
+
+    const startTime = Date.now();
+    while (update.status !== 'Complete') {
+      // Check for timeout
+      if (Date.now() - startTime > MAX_WAIT_TIME) {
+        throw new Error(`Timeout: Stack "${stack.name}" did not succeed to perform ${COMMAND} within ${MAX_WAIT_TIME/1000/60} min`);
+      }
+
+      // Wait before polling again
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      update = await komodo.read('GetUpdate', { id: update._id.$oid }); // Refresh update status
+      console.log(`⏳ "${stack.name}" ${COMMAND} status: ${update.status}`);
+    }
+    // Check for failure
+    if (!update.success) {
+      throw new Error(`Stack "${stack.name}" failed to to perform ${COMMAND}: ${update.logs.join(', ')}`);
+    }
+    console.log(`✅ Stack "${stack.name}" has fully performed ${COMMAND}`);
+  };
+
+  // Wait for all stacks to complete (or fail)
+  await Promise.all(
+    updates.map(update =>
+      waitForCompletion(update).catch(e => {
+        console.log(`❌ Error performing ${COMMAND} on stack "${update.stack.name}":`, e.message);
+        errors.push(e);
+      })
+    )
+  );
+
+}
+ 
+// Execute
+await startCommandOnStacks();
+
+if (errors.length > 0) {
+  throw `⚠️ Encountered ${errors.length} errors during stacks ${COMMAND} commands.`;
+}
+"""
