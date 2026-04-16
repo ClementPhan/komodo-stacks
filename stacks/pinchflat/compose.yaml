@@ -23,9 +23,9 @@ services:
       homepage.href: https://pinchflat.{{op://docker/home_address/url/url}}/
       homepage.description: YouTube downloader
     networks:
-      traefik_proxy: {}
+      traefik_proxy_overlay: {}
 
 
 networks:
-  traefik_proxy:
+  traefik_proxy_overlay:
     external: true
