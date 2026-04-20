@@ -11,18 +11,18 @@ services:
       - /mnt/software/applications/pinchflat/data:/config
       - /mnt/bulk/media/audio/podcasts/pinchflat:/downloads/podcasts
       - /mnt/bulk/media/video/youtube:/downloads/youtube
-    labels:
-      traefik.enable: true
-      traefik.http.routers.pinchflat.rule: Host(`pinchflat.{{op://docker/home_address/url/url}}`)
-      traefik.http.routers.pinchflat.entrypoints: websecure
-      traefik.http.routers.pinchflat.tls.certresolver: myresolver
-      traefik.http.services.pinchflat.loadbalancer.server.port: 8945
-      # Homepage configuration
-      homepage.group: Media & Data
-      homepage.name: PinchFlat
-      homepage.icon: pinchflat.png
-      homepage.href: https://pinchflat.{{op://docker/home_address/url/url}}/
-      homepage.description: YouTube downloader
+    # labels:
+    #   traefik.enable: true
+    #   traefik.http.routers.pinchflat.rule: Host(`pinchflat.{{op://docker/home_address/url/url}}`)
+    #   traefik.http.routers.pinchflat.entrypoints: websecure
+    #   traefik.http.routers.pinchflat.tls.certresolver: myresolver
+    #   traefik.http.services.pinchflat.loadbalancer.server.port: 8945
+    #   Homepage configuration
+    #   homepage.group: Media & Data
+    #   homepage.name: PinchFlat
+    #   homepage.icon: pinchflat.png
+    #   homepage.href: https://pinchflat.{{op://docker/home_address/url/url}}/
+    #   homepage.description: YouTube downloader
     networks:
       traefik_proxy: {}
 
