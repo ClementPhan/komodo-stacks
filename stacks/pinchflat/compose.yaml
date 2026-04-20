@@ -4,8 +4,9 @@ services:
     environment:
       - "TZ=Europe/Paris"
       - "JOURNAL_MODE=delete" # For NFS share
-    # ports:
-    #   - 8945:8945
+      - "YT_DLP_WORKER_CONCURRENCY=1"
+    ports:
+      - 8945:8945
     volumes:
       - /mnt/software/applications/pinchflat/data:/config
       - /mnt/bulk/media/audio/podcasts/pinchflat:/downloads/podcasts
@@ -23,9 +24,9 @@ services:
       homepage.href: https://pinchflat.{{op://docker/home_address/url/url}}/
       homepage.description: YouTube downloader
     networks:
-      traefik_proxy_overlay: {}
+      traefik_proxy: {}
 
 
 networks:
-  traefik_proxy_overlay:
+  traefik_proxy:
     external: true
