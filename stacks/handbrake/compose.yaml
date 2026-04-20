@@ -19,7 +19,8 @@ services:
       - KEEP_APP_RUNNING=1
       - AUTOMATED_CONVERSION_OUTPUT_SUBDIR=SAME_AS_SRC
       - AUTOMATED_CONVERSION_PRESET=My Persets/BR_1K_DVD
-      - AUTOMATED_CONVERSION_HANDBRAKE_CUSTOM_ARGS=--format av_mkv
+      # - AUTOMATED_CONVERSION_HANDBRAKE_CUSTOM_ARGS=--format av_mkv
+      - AUTOMATED_CONVERSION_FORMAT=mkv
     labels:
       # Traefik configuration
       traefik.enable: true
