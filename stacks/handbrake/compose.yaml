@@ -2,6 +2,10 @@ services:
   handbrake:
     image: jlesage/handbrake:v26.03.3@sha256:2b1eb1e34cf2edba2590c3ab768206a11cf8916fbe8a8a3391fe74d9eabcdce0
     container_name: handbrake
+    deploy:
+      resources:
+        limits:
+          cpus: '14'
     # ports:
     #   - 5800:5800/tcp
     volumes:
@@ -19,8 +23,9 @@ services:
       - KEEP_APP_RUNNING=1
       - AUTOMATED_CONVERSION_OUTPUT_SUBDIR=SAME_AS_SRC
       - AUTOMATED_CONVERSION_PRESET=My Persets/BR_1K_DVD
-      # - AUTOMATED_CONVERSION_HANDBRAKE_CUSTOM_ARGS=--format av_mkv
       - AUTOMATED_CONVERSION_FORMAT=mkv
+      - AUTOMATED_CONVERSION_KEEP_SOURCE=0
+      - AUTOMATED_CONVERSION_NON_VIDEO_FILE_ACTION=copy
     labels:
       # Traefik configuration
       traefik.enable: true
