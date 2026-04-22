@@ -89,7 +89,7 @@ services:
       - PAPERLESS_TIKA_GOTENBERG_ENDPOINT=http://gotenberg:3000
       - PAPERLESS_TIKA_ENDPOINT=http://tika:9998
       - PAPERLESS_APPS=allauth.socialaccount.providers.openid_connect
-      - PAPERLESS_SOCIALACCOUNT_PROVIDERS={"openid_connect":{"SCOPE":["openid","profile","email"],"OAUTH_PKCE_ENABLED":true,"APPS":[{"provider_id":"pocket-id","name":"Pocket-ID","client_id":"{{op://docker/pocket-id/paperless/client_id}}","secret":"{{op://docker/pocket-id/paperless/client_secret}}","settings":{"server_url":"https://pocketid.famillephan.fr"}}]}}
+      - PAPERLESS_SOCIALACCOUNT_PROVIDERS={"openid_connect":{"SCOPE":["openid","profile","email"],"OAUTH_PKCE_ENABLED":true,"APPS":[{"provider_id":"pocket-id","name":"Pocket-ID","client_id":"{{op://docker/pocketid/paperless/client_id}}","secret":"{{op://docker/pocket-id/paperless/client_secret}}","settings":{"server_url":"https://pocketid.famillephan.fr"}}]}}
     labels:
       # Traefik configuration
       traefik.enable: true
