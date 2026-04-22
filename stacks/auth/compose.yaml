@@ -1,0 +1,36 @@
+services:
+  services:
+  pocket-id:
+    image: ghcr.io/pocket-id/pocket-id:v2
+    restart: unless-stopped
+    env_file: pocket_id.env
+    # ports:
+    #   - 1411:1411
+    volumes:
+      - /mnt/software/applications/auth/pocket_id_data:/app/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pocket-id.rule: Host(`pocket-id.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.pocket-id.entrypoints: websecure
+      traefik.http.routers.pocket-id.tls.certresolver: myresolver
+      traefik.http.services.pocket-id.loadbalancer.server.port: 1411
+      # Homepage configuration
+      homepage.group: Network
+      homepage.name: Pocket-ID
+      homepage.icon: pocket-id
+      homepage.href: https://pocket-id.{{op://docker/home_address/url/url}}/
+      homepage.description: Authentication service
+    # Optional healthcheck
+    healthcheck:
+      test: [ "CMD", "/app/pocket-id", "healthcheck" ]
+      interval: 1m30s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+    networks:
+      - traefik_proxy
+
+networks:
+  traefik_proxy:
+    external: true
+    
