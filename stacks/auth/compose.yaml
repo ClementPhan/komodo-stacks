@@ -1,5 +1,4 @@
 services:
-  services:
   pocket-id:
     image: ghcr.io/pocket-id/pocket-id:v2
     restart: unless-stopped
