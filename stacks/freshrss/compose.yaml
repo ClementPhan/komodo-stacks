@@ -25,6 +25,13 @@ services:
         --language en
         --password ${ADMIN_PASSWORD}
         --user {{op://docker/freshrss/username}}
+      OIDC_ENABLED: 1
+      OIDC_CLIENT_ID: {{op://docker/pocket-id/freshrss/client_id}}
+      OIDC_CLIENT_SECRET: {{op://docker/pocket-id/freshrss/client_secret}}
+      OIDC_PROVIDER_METADATA_URL: https://pocketid.{{op://docker/home_address/url/url}}/.well-known/openid-configuration
+      OIDC_SCOPES: openid email profile
+      OIDC_X_FORWARDED_HEADERS: X-Forwarded-Proto X-Forwarded-Host
+      OIDC_REMOTE_USER_CLAIM: preferred_username
     # ports:
       # If you want to open a port 8080 on the local machine:
       # - "8080:80"
