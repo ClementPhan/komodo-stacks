@@ -32,6 +32,7 @@ services:
       OIDC_SCOPES: openid email profile
       OIDC_X_FORWARDED_HEADERS: X-Forwarded-Proto X-Forwarded-Host
       OIDC_REMOTE_USER_CLAIM: preferred_username
+      OIDC_CLIENT_CRYPTO_KEY: {{op://docker/freshrss/config/oidc_client_crypto_key}}
     # ports:
       # If you want to open a port 8080 on the local machine:
       # - "8080:80"
