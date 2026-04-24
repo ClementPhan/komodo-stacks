@@ -8,6 +8,18 @@ services:
     - HBOX_LOG_LEVEL=info
     - HBOX_LOG_FORMAT=text
     - HBOX_WEB_MAX_UPLOAD_SIZE=10
+    - HBOX_OIDC_ENABLED=true
+    - HBOX_OIDC_ISSUER_URL=https://pocketid.{{op://docker/home_address/url/url}}
+    - HBOX_OIDC_CLIENT_ID={{op://docker/pocket-id/homebox/client_id}}
+    - HBOX_OIDC_CLIENT_SECRET={{op://docker/pocket-id/homebox/client_secret}}
+    # Required if behind a reverse proxy so HomeBox detects HTTPS correctly
+    - HBOX_OPTIONS_TRUST_PROXY=true
+    # Optional: require verified email from Pocket ID
+    # - HBOX_OIDC_VERIFY_EMAIL=true
+    # Optional: auto-redirect to OIDC login (bypass local login screen)
+    # - HBOX_OIDC_AUTO_REDIRECT=true
+    # Optional: disable username/password login completely
+    # - HBOX_OPTIONS_ALLOW_LOCAL_LOGIN=false
     volumes:
       - /mnt/software/applications/homebox/data:/data/
     # ports:
