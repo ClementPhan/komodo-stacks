@@ -17,9 +17,9 @@ services:
     # Optional: require verified email from Pocket ID
     # - HBOX_OIDC_VERIFY_EMAIL=true
     # Optional: auto-redirect to OIDC login (bypass local login screen)
-    # - HBOX_OIDC_AUTO_REDIRECT=true
+    - HBOX_OIDC_AUTO_REDIRECT=true
     # Optional: disable username/password login completely
-    # - HBOX_OPTIONS_ALLOW_LOCAL_LOGIN=false
+    - HBOX_OPTIONS_ALLOW_LOCAL_LOGIN=false
     volumes:
       - /mnt/software/applications/homebox/data:/data/
     # ports:
