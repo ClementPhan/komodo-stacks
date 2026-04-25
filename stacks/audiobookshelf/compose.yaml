@@ -40,7 +40,7 @@ services:
       - /mnt/bulk/media/audio/audiobooks/libation:/data
       - /mnt/software/applications/audiobookshelf/libation_db:/db
     environment:
-      - SLEEP_TIME=24h
+      - SLEEP_TIME=177h
 
 networks:
   traefik_proxy:
