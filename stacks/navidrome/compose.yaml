@@ -5,7 +5,7 @@ services:
     # ports:
     #   - "4533:4533"
     restart: unless-stopped
-    environment:
+    # environment:
       # Optional: put your config options customization here. Examples:
       # ND_LOGLEVEL: debug
     volumes:
