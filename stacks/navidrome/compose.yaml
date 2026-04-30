@@ -1,0 +1,33 @@
+services:
+  navidrome:
+    image: deluan/navidrome:0.61.2
+    user: {{op://docker/TrueNas/unpriviledged_user/uid}}:{{op://docker/TrueNas/unpriviledged_user/gid}} # should be owner of volumes
+    # ports:
+    #   - "4533:4533"
+    restart: unless-stopped
+    environment:
+      # Optional: put your config options customization here. Examples:
+      # ND_LOGLEVEL: debug
+    volumes:
+      - /mnt/software/applications/navidrome/data:/data
+      - /mnt/bulk/media/audio/music:/music:ro"
+    labels:
+      # Traefik configuration
+      traefik.enable: true
+      traefik.http.routers.navidrome.rule: Host(`navidrome.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.navidrome.entrypoints: websecure
+      traefik.http.routers.navidrome.tls.certresolver: myresolver
+      traefik.http.services.navidrome.loadbalancer.server.port: 4533
+      docker-volume-backup.stop-during-backup: true
+      # Homepage configuration
+      homepage.group: Media
+      homepage.name: Navidrome
+      homepage.icon: navidrome
+      homepage.href: https://navidrome.{{op://docker/home_address/url/url}}/
+      homepage.description: Music Server
+    networks:
+      traefik_proxy: {}
+
+networks:
+  traefik_proxy:
+    external: true
