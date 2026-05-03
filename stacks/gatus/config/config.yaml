@@ -29,3 +29,11 @@ endpoints:
     url: "http://box.{{op://docker/home_address/url/url}}"
     conditions:
       - "[STATUS] == 200"
+
+  - name: PeaNUT
+    group: Network
+    url: "http://peanut.{{op://docker/home_address/url/url}}/api/ping"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY] == \"pong\""
