@@ -37,3 +37,10 @@ endpoints:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY] == \"pong\""
+
+  - name: Pocket ID
+    group: Network
+    url: "http://pocketid.{{op://docker/home_address/url/url}}/healthz"
+    conditions:
+      - "[STATUS] == 204"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
