@@ -26,6 +26,8 @@ services:
       homepage.widget.type: peanut
       homepage.widget.url: https://peanut.{{op://docker/home_address/url/url}}
       homepage.widget.key: ups
+      homepage.widget.username: {{op://docker/peanut/username}}
+      homepage.widget.password: {{op://docker/peanut/password}}
     networks:
       traefik_proxy: {}
 
