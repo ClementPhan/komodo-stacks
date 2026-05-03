@@ -44,3 +44,11 @@ endpoints:
     conditions:
       - "[STATUS] == 204"
       - "[CERTIFICATE_EXPIRATION] > 48h"
+
+  - name: Traefik
+    group: Network
+    url: "http://traefik.{{op://docker/home_address/url/url}}/api/version"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "has([BODY].Version) == true"
