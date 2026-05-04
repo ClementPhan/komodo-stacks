@@ -1,9 +1,0 @@
-[[stack]]
-name = "actual-budget"
-[stack.config]
-server = "Local"
-repo = "ClementPhan/komodo-stacks"
-run_directory = "./stacks/actual-budget"
-pre_deploy.command = """
-sh ../../inject.sh [[OP_CONNECT_TOKEN]]
-"""
