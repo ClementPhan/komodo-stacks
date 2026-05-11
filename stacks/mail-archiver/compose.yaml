@@ -17,7 +17,7 @@ services:
     labels:
       # Traefik configuration
       traefik.enable: true
-      traefik.http.routers.mail-archiver.rule: Host(`mail-archiver.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.mail-archiver.rule: Host(`mail-archiver.${TLD}`)
       traefik.http.routers.mail-archiver.entrypoints: websecure
       traefik.http.routers.mail-archiver.tls.certresolver: myresolver
       traefik.http.services.mail-archiver.loadbalancer.server.port: 5000
@@ -25,7 +25,7 @@ services:
       homepage.group: Home Management
       homepage.name: Mail Archiver
       homepage.icon: mail-archiver.svg
-      homepage.href: https://mail-archiver.{{op://docker/home_address/url/url}}/
+      homepage.href: https://mail-archiver.${TLD}/
       homepage.description: Mail Archiving
     networks:
       postgres: {}
