@@ -15,7 +15,7 @@ services:
     restart: always
     labels:
       traefik.enable: true
-      traefik.http.routers.audiobookshelf.rule: Host(`audiobookshelf.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.audiobookshelf.rule: Host(`audiobookshelf.${TLD}`)
       traefik.http.routers.audiobookshelf.entrypoints: websecure
       traefik.http.routers.audiobookshelf.tls.certresolver: myresolver
       traefik.http.services.audiobookshelf.loadbalancer.server.port: 80
@@ -23,7 +23,7 @@ services:
       homepage.group: Media & Data
       homepage.name: Audiobookshelf
       homepage.icon: audiobookshelf.svg
-      homepage.href: https://audiobookshelf.{{op://docker/home_address/url/url}}/
+      homepage.href: https://audiobookshelf.${TLD}/
       homepage.description: Audiobook and podcast repository
     networks:
       traefik_proxy: {}
