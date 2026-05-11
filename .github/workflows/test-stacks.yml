@@ -29,5 +29,7 @@ jobs:
         run: bash inject_dummy_secrets.sh
 
       - name: Validate compose stacks
+        env:
+          TLD: example.com
         run: bash validate_compose_files.sh
 
