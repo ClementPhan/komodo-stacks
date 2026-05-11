@@ -5,34 +5,34 @@ storage:
 endpoints:
   - name: Komodo
     group: core
-    url: "https://komodo.{{op://docker/home_address/url/url}}"
+    url: "https://komodo.${TLD}"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
 
   - name: idrac
     group: internal
-    url: "https://idrac.{{op://docker/home_address/url/url}}"
+    url: "https://idrac.${TLD}"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
 
   - name: Gul
     group: internal
-    url: "https://gul.{{op://docker/home_address/url/url}}"
+    url: "https://gul.${TLD}"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
 
   - name: Box
     group: Network
-    url: "http://box.{{op://docker/home_address/url/url}}"
+    url: "http://box.${TLD}"
     conditions:
       - "[STATUS] == 200"
 
   - name: PeaNUT
     group: Network
-    url: "http://peanut.{{op://docker/home_address/url/url}}/api/ping"
+    url: "http://peanut.${TLD}/api/ping"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
@@ -40,14 +40,14 @@ endpoints:
 
   - name: Pocket ID
     group: Network
-    url: "http://pocketid.{{op://docker/home_address/url/url}}/healthz"
+    url: "http://pocketid.${TLD}/healthz"
     conditions:
       - "[STATUS] == 204"
       - "[CERTIFICATE_EXPIRATION] > 48h"
 
   - name: Traefik
     group: Network
-    url: "http://traefik.{{op://docker/home_address/url/url}}/api/version"
+    url: "http://traefik.${TLD}/api/version"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
