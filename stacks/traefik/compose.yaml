@@ -35,49 +35,10 @@ services:
       traefik_proxy:
         ipv4_address: 10.0.1.200
 
-  authelia:
-    image: 'authelia/authelia:4.39@sha256:0c824dcab1ae97c56bf673c5e77fe8cc6bcd400564555140cc8002a12c6b6463'
-    container_name: 'authelia'
-    volumes:
-      - './authelia/secrets:/secrets:ro'
-      - './authelia/config:/config'
-      - './authelia/logs:/var/log/authelia/'
-    networks:
-      authelia: {}
-    labels:
-      ## Expose Authelia through Traefik
-      traefik.enable: true
-      traefik.docker.network: authelia
-      traefik.http.routers.authelia.rule: Host(`auth.{{op://docker/home_address/url/url}}`)
-      traefik.http.routers.authelia.entrypoints: websecure
-      traefik.http.routers.authelia.tls.certresolver: myresolver
-      ## Setup Authelia ForwardAuth Middlewares
-      traefik.http.middlewares.authelia.forwardAuth.address: 'http://authelia:9091/api/authz/forward-auth'
-      traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader: 'true'
-      traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders: 'Remote-User,Remote-Groups,Remote-Name,Remote-Email'
-    environment:
-      TZ: 'Europe/Paris'
-      X_AUTHELIA_CONFIG_FILTERS: 'template'
-  
-  whoami-secure:
-    image: 'traefik/whoami@sha256:200689790a0a0ea48ca45992e0450bc26ccab5307375b41c84dfc4f2475937ab'
-    restart: 'unless-stopped'
-    container_name: 'whoami-secure'
-    labels:
-      traefik.enable: 'true'
-      traefik.http.routers.whoami-secure.rule: 'Host(`whoami-secure.{{op://docker/home_address/url/url}}`)'
-      traefik.http.routers.whoami-secure.entrypoints: websecure
-      traefik.http.routers.whoami-secure.middlewares: 'authelia@docker'
-      traefik.http.routers.whoami-secure.tls.certresolver: myresolver
-    networks:
-      traefik_proxy: {}
-
 volumes:
   letsencrypt: null
 
 networks:
-  authelia:
-    driver: bridge
   traefik_proxy:
     name: traefik_proxy
     driver: bridge
@@ -85,5 +46,3 @@ networks:
       config:
         - subnet: 10.0.1.0/24
           gateway: 10.0.1.1
-  traefik_proxy_overlay:
-    external: true
