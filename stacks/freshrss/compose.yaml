@@ -10,8 +10,6 @@ services:
     volumes:
       - /mnt/software/applications/freshrss/data:/var/www/FreshRSS/data
       - /mnt/software/applications/freshrss/extensions:/var/www/FreshRSS/extensions
-    env_file:
-      - freshrss.env
     environment:
       TZ: Europe/Paris
       CRON_MIN: '21,51'
