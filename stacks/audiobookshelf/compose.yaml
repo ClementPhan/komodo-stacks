@@ -25,9 +25,6 @@ services:
       homepage.icon: audiobookshelf.svg
       homepage.href: https://audiobookshelf.{{op://docker/home_address/url/url}}/
       homepage.description: Audiobook and podcast repository
-      homepage.widget.type: audiobookshelf
-      homepage.widget.url: https://audiobookshelf.{{op://docker/home_address/url/url}}
-      homepage.widget.key: {{op://docker/audiobookshelf/api/key}}
     networks:
       traefik_proxy: {}
     
