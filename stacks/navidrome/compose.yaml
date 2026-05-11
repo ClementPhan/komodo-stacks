@@ -14,7 +14,7 @@ services:
     labels:
       # Traefik configuration
       traefik.enable: true
-      traefik.http.routers.navidrome.rule: Host(`navidrome.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.navidrome.rule: Host(`navidrome.${TLD}`)
       traefik.http.routers.navidrome.entrypoints: websecure
       traefik.http.routers.navidrome.tls.certresolver: myresolver
       traefik.http.services.navidrome.loadbalancer.server.port: 4533
@@ -23,7 +23,7 @@ services:
       homepage.group: Media
       homepage.name: Navidrome
       homepage.icon: navidrome
-      homepage.href: https://navidrome.{{op://docker/home_address/url/url}}/
+      homepage.href: https://navidrome.${TLD}/
       homepage.description: Music Server
     networks:
       traefik_proxy: {}
