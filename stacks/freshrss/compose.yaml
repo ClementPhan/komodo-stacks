@@ -10,7 +10,7 @@ services:
     volumes:
       - /mnt/software/applications/freshrss/data:/var/www/FreshRSS/data
       - /mnt/software/applications/freshrss/extensions:/var/www/FreshRSS/extensions
-    env-file:
+    env_file:
       - freshrss.env
     environment:
       TZ: Europe/Paris
