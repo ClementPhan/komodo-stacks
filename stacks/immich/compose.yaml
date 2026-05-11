@@ -31,7 +31,7 @@ services:
     #   - '2283:2283'
     labels:
       traefik.enable: true
-      traefik.http.routers.immich.rule: Host(`immich.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.immich.rule: Host(`immich.${TLD}`)
       traefik.http.routers.immich.entrypoints: websecure
       traefik.http.routers.immich.tls.certresolver: myresolver
       traefik.http.services.immich.loadbalancer.server.port: 2283
@@ -39,7 +39,7 @@ services:
       homepage.group: Media & Data
       homepage.name: Immich
       homepage.icon: immich.svg
-      homepage.href: https://Immich.{{op://docker/home_address/url/url}}/
+      homepage.href: https://Immich.${TLD}/
       homepage.description: Photo library
     depends_on:
       - redis
