@@ -29,7 +29,7 @@ services:
     labels:
       # Traefik configuration
       traefik.enable: true
-      traefik.http.routers.handbrake.rule: Host(`handbrake.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.handbrake.rule: Host(`handbrake.${TLD}`)
       traefik.http.routers.handbrake.entrypoints: websecure
       traefik.http.routers.handbrake.tls.certresolver: myresolver
       traefik.http.services.handbrake.loadbalancer.server.port: 5800
@@ -38,7 +38,7 @@ services:
       homepage.group: Media & Data
       homepage.name: HandBrake
       homepage.icon: handbrake
-      homepage.href: https://handbrake.{{op://docker/home_address/url/url}}/
+      homepage.href: https://handbrake.${TLD}/
       homepage.description: Video transcoder
     networks:
       traefik_proxy: {}
