@@ -10,7 +10,7 @@ services:
       - ${PWD}/lets-encrypt.pem:/etc/ssl/certs/lets-encrypt.pem:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.gatus.rule: Host(`gatus.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.gatus.rule: Host(`gatus.${TLD}`)
       traefik.http.routers.gatus.entrypoints: websecure
       traefik.http.routers.gatus.tls.certresolver: myresolver
       traefik.http.services.gatus.loadbalancer.server.port: 8080
@@ -18,7 +18,7 @@ services:
       homepage.group: Network
       homepage.name: Gatus
       homepage.icon: gatus
-      homepage.href: https://gatus.{{op://docker/home_address/url/url}}/
+      homepage.href: https://gatus.${TLD}/
       homepage.description: Uptime monitor
     networks:
       - traefik_proxy
