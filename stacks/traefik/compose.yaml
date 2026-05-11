@@ -20,7 +20,7 @@ services:
       - letsencrypt:/letsencrypt
     labels:
       traefik.enable: true
-      traefik.http.routers.traefik.rule: Host(`traefik.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.traefik.rule: Host(`traefik.${TLD}`)
       traefik.http.routers.traefik.entrypoints: websecure
       traefik.http.routers.traefik.tls.certresolver: myresolver
       traefik.http.services.traefik.loadbalancer.server.port: 8080
@@ -28,7 +28,7 @@ services:
       homepage.group: Network
       homepage.name: Traefik
       homepage.icon: traefik.svg
-      homepage.href: https://traefik.{{op://docker/home_address/url/url}}/
+      homepage.href: https://traefik.${TLD}/
       homepage.description: Local reverse proxy
     networks:
       authelia: {}
