@@ -8,4 +8,6 @@ run_directory = "./stacks/auth"
 pre_deploy.command = """
 sh ../../inject.sh [[OP_CONNECT_TOKEN]]
 """
-
+environment = """
+TLD = [[TLD]]
+"""
