@@ -9,7 +9,7 @@ services:
     - HBOX_LOG_FORMAT=text
     - HBOX_WEB_MAX_UPLOAD_SIZE=10
     - HBOX_OIDC_ENABLED=true
-    - HBOX_OIDC_ISSUER_URL=https://pocketid.{{op://docker/home_address/url/url}}
+    - HBOX_OIDC_ISSUER_URL=https://pocketid.${TLD}
     - HBOX_OIDC_CLIENT_ID={{op://docker/pocket-id/homebox/client_id}}
     - HBOX_OIDC_CLIENT_SECRET={{op://docker/pocket-id/homebox/client_secret}}
     # Required if behind a reverse proxy so HomeBox detects HTTPS correctly
@@ -27,7 +27,7 @@ services:
     labels:
       # Traefik configuration
       traefik.enable: true
-      traefik.http.routers.homebox.rule: Host(`homebox.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.homebox.rule: Host(`homebox.${TLD}`)
       traefik.http.routers.homebox.entrypoints: websecure
       traefik.http.routers.homebox.tls.certresolver: myresolver
       traefik.http.services.homebox.loadbalancer.server.port: 7745
@@ -36,7 +36,7 @@ services:
       homepage.group: Home Management
       homepage.name: homebox
       homepage.icon: homebox.svg
-      homepage.href: https://homebox.{{op://docker/home_address/url/url}}/
+      homepage.href: https://homebox.${TLD}/
       homepage.description: Asset tracking
     networks:
       traefik_proxy: {}
