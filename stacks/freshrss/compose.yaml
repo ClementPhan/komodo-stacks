@@ -10,25 +10,27 @@ services:
     volumes:
       - /mnt/software/applications/freshrss/data:/var/www/FreshRSS/data
       - /mnt/software/applications/freshrss/extensions:/var/www/FreshRSS/extensions
+    env-file:
+      - freshrss.env
     environment:
       TZ: Europe/Paris
-      CRON_MIN: '3,33'
+      CRON_MIN: '21,51'
       TRUSTED_PROXY: 10.0.1.200
       FRESHRSS_INSTALL: |-
         --api-enabled
-        --base-url ${BASE_URL}
+        --base-url https://freshrss.${TLD}
         --default-user {{op://docker/freshrss/username}}
         --language en
       FRESHRSS_USER: |-
-        --api-password ${ADMIN_API_PASSWORD}
-        --email ${ADMIN_EMAIL}
+        --api-password {{op://docker/freshrss/api/api_password}}
+        --email {{op://docker/email/email/email}}
         --language en
-        --password ${ADMIN_PASSWORD}
+        --password {{op://docker/freshrss/password}}
         --user {{op://docker/freshrss/username}}
       OIDC_ENABLED: 1
       OIDC_CLIENT_ID: {{op://docker/pocket-id/freshrss/client_id}}
       OIDC_CLIENT_SECRET: {{op://docker/pocket-id/freshrss/client_secret}}
-      OIDC_PROVIDER_METADATA_URL: https://pocketid.{{op://docker/home_address/url/url}}/.well-known/openid-configuration
+      OIDC_PROVIDER_METADATA_URL: https://pocketid.${TLD}/.well-known/openid-configuration
       OIDC_SCOPES: openid email profile
       OIDC_X_FORWARDED_HEADERS: X-Forwarded-Proto X-Forwarded-Host
       OIDC_REMOTE_USER_CLAIM: preferred_username
@@ -39,7 +41,7 @@ services:
     labels:
     # Traefik configuration
       traefik.enable: true
-      traefik.http.routers.freshrss.rule: Host(`freshrss.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.freshrss.rule: Host(`freshrss.${TLD}`)
       traefik.http.routers.freshrss.entrypoints: websecure
       traefik.http.routers.freshrss.tls.certresolver: myresolver
       traefik.http.services.freshrss.loadbalancer.server.port: 80
@@ -48,7 +50,7 @@ services:
       homepage.group: Media & Data
       homepage.name: FreshRSS
       homepage.icon: freshrss
-      homepage.href: https://freshrss.{{op://docker/home_address/url/url}}/
+      homepage.href: https://freshrss.${TLD}/
       homepage.description: RSS feed reader
 
 
