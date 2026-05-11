@@ -41,10 +41,6 @@ services:
       homepage.icon: immich.svg
       homepage.href: https://Immich.{{op://docker/home_address/url/url}}/
       homepage.description: Photo library
-      homepage.widget.type: immich
-      homepage.widget.url: https://immich.{{op://docker/home_address/url/url}}
-      homepage.widget.key: {{op://docker/immich/database/token}}
-      homepage.widget.version: 2
     depends_on:
       - redis
       - database
