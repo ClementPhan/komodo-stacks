@@ -104,9 +104,6 @@ services:
       homepage.icon: paperless-ngx.svg
       homepage.href: https://paperless.{{op://docker/home_address/url/url}}/
       homepage.description: Document management
-      homepage.widget.type: paperlessngx
-      homepage.widget.url: https://paperless.{{op://docker/home_address/url/url}}
-      homepage.widget.key: {{op://docker/paperless/secrets/token}}
     networks:
       default: {}
       traefik_proxy: {}
