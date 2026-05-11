@@ -12,7 +12,7 @@ services:
     labels:
       # Traefik configuration
       traefik.enable: true
-      traefik.http.routers.peanut.rule: Host(`peanut.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.peanut.rule: Host(`peanut.${TLD}`)
       traefik.http.routers.peanut.entrypoints: websecure
       traefik.http.routers.peanut.tls.certresolver: myresolver
       traefik.http.services.peanut.loadbalancer.server.port: 8080
@@ -21,7 +21,7 @@ services:
       homepage.group: Network
       homepage.name: PeaNUT
       homepage.icon: peanut.svg
-      homepage.href: https://peanut.{{op://docker/home_address/url/url}}/
+      homepage.href: https://peanut.${TLD}/
       homepage.description: UPS status
     networks:
       traefik_proxy: {}
