@@ -83,6 +83,7 @@ services:
       - /mnt/software/applications/paperlessngx/consume:/usr/src/paperless/consume
     env_file: compose.env
     environment:
+      - PAPERLESS_URL=https://paperless.${TLD}
       - PAPERLESS_REDIS=redis://broker:6379
       - PAPERLESS_DBHOST=db
       - PAPERLESS_TIKA_ENABLED=1
@@ -93,7 +94,7 @@ services:
     labels:
       # Traefik configuration
       traefik.enable: true
-      traefik.http.routers.paperless.rule: Host(`paperless.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.paperless.rule: Host(`paperless.${TLD}`)
       traefik.http.routers.paperless.entrypoints: websecure
       traefik.http.routers.paperless.tls.certresolver: myresolver
       traefik.http.services.paperless.loadbalancer.server.port: 8000
@@ -102,7 +103,7 @@ services:
       homepage.group: Media & Data
       homepage.name: Paperless
       homepage.icon: paperless-ngx.svg
-      homepage.href: https://paperless.{{op://docker/home_address/url/url}}/
+      homepage.href: https://paperless.${TLD}/
       homepage.description: Document management
     networks:
       default: {}

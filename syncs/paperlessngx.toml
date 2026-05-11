@@ -13,3 +13,6 @@ chmod 600 sftp_config/ssh_host_ed25519_key
 config_files = [
   { path = "sftp_config/sshd_config", services = ["sftp"], requires = "Restart" }
 ]
+environment = """
+TLD = [[TLD]]
+"""
