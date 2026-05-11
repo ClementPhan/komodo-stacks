@@ -9,11 +9,11 @@ services:
       - {{op://docker/TrueNas/config/services_ip}}:9080:9080
       - {{op://docker/TrueNas/config/services_ip}}:9443:9443
     environment:
-      - OVH_ENDPOINT=op://docker/ovh/server/endpoint
-      - OVH_APPLICATION_KEY=op://docker/ovh/secrets/app_key
-      - OVH_APPLICATION_SECRET=op://docker/ovh/secrets/app_secret
-      - OVH_CONSUMER_KEY=op://docker/ovh/secrets/consumer_key
-      - TRAEFIK_CERTIFICATESRESOLVERS_MYRESOLVER_ACME_EMAIL=op://docker/email/email/email
+      - OVH_ENDPOINT={{op://docker/ovh/server/endpoint}}
+      - OVH_APPLICATION_KEY={{op://docker/ovh/secrets/app_key}}
+      - OVH_APPLICATION_SECRET={{op://docker/ovh/secrets/app_secret}}
+      - OVH_CONSUMER_KEY={{op://docker/ovh/secrets/consumer_key}}
+      - TRAEFIK_CERTIFICATESRESOLVERS_MYRESOLVER_ACME_EMAIL={{op://docker/email/email/email}}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config/:/etc/traefik/:ro
