@@ -5,6 +5,9 @@ tags = ["auto-start", "auto-stop"]
 server = "Local"
 repo = "ClementPhan/komodo-stacks"
 run_directory = "./stacks/immich"
+additional_env_files = [
+  { path = "immich.env", track = true }
+]
 pre_deploy.command = """
 sh ../../inject.sh [[OP_CONNECT_TOKEN]]
 """
