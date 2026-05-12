@@ -8,3 +8,6 @@ run_directory = "./stacks/uptime-kuma"
 pre_deploy.command = """
 sh ../../inject.sh [[OP_CONNECT_TOKEN]]
 """
+environment = """
+TLD = [[TLD]]
+"""
