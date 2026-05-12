@@ -31,7 +31,6 @@ services:
       homepage.href: https://traefik.${TLD}/
       homepage.description: Local reverse proxy
     networks:
-      authelia: {}
       traefik_proxy:
         ipv4_address: 10.0.1.200
 
