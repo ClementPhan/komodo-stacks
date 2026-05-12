@@ -1,34 +1,34 @@
 - Network:
   - Komodo:
       icon: komodo.svg
-      href: https://komodo.{{op://docker/home_address/url/url}}/
+      href: https://komodo.{{HOMEPAGE_VAR_TLD}}/
       description: Docker management
       server: my-docker
       container: ix-komodo-core-1
       widget:
         type: komodo
-        url: https://komodo.{{op://docker/home_address/url/url}}
+        url: https://komodo.{{HOMEPAGE_VAR_TLD}}
         key: {{op://docker/komodo/api/key}}
         secret: {{op://docker/komodo/api/secret}}
         showStacks: true
   - ISP Router:
       icon: router.svg
-      href: http://box.{{op://docker/home_address/url/url}}/
-      siteMonitor: https://box.{{op://docker/home_address/url/url}}
+      href: http://box.{{HOMEPAGE_VAR_TLD}}/
+      siteMonitor: https://box.{{HOMEPAGE_VAR_TLD}}
       description: Box Free
   - Home Assistant:
       icon: home-assistant.svg
-      href: https://hub.{{op://docker/home_address/url/url}}
-      siteMonitor: https://hub.{{op://docker/home_address/url/url}}
+      href: https://hub.{{HOMEPAGE_VAR_TLD}}
+      siteMonitor: https://hub.{{HOMEPAGE_VAR_TLD}}
       description: Home automation
       widget:
         type: homeassistant
-        url: https://hub.{{op://docker/home_address/url/url}}
+        url: https://hub.{{HOMEPAGE_VAR_TLD}}
         key: "{{op://docker/home_assistant/auth/token}}"
   - Emergency:
     - Komodo Override:
       icon: komodo.svg
-      href: http://services.mammouth.{{op://docker/home_address/url/url}}:30160/
+      href: http://services.mammouth.{{HOMEPAGE_VAR_TLD}}:30160/
       description: Docker management when using the VPN
       server: my-docker
       container: ix-komodo-core-1
@@ -36,16 +36,16 @@
 - NAS:
   - Gul Synology:
       icon: synology.svg
-      href: https://gul.{{op://docker/home_address/url/url}}:5001/
-      siteMonitor: https://gul.{{op://docker/home_address/url/url}}
+      href: https://gul.{{HOMEPAGE_VAR_TLD}}:5001/
+      siteMonitor: https://gul.{{HOMEPAGE_VAR_TLD}}
       description: Synology DS220J
       widget:
         type: diskstation
-        url: https://gul.{{op://docker/home_address/url/url}}:5001/
+        url: https://gul.{{HOMEPAGE_VAR_TLD}}:5001/
         username: {{op://docker/gul_remote_stats/username}}
         password: {{op://docker/gul_remote_stats/confirmpassword}}
         volume: volume_1
   - Mammouth TrueNAS:
       icon: truenas.svg
-      href: https://mammouth.{{op://docker/home_address/url/url}}/
+      href: https://mammouth.{{HOMEPAGE_VAR_TLD}}/
       description: TrueNAS Scale on Dell T420
