@@ -5,12 +5,6 @@
       description: Docker management
       server: my-docker
       container: ix-komodo-core-1
-      widget:
-        type: komodo
-        url: https://komodo.{{HOMEPAGE_VAR_TLD}}
-        key: {{op://docker/komodo/api/key}}
-        secret: {{op://docker/komodo/api/secret}}
-        showStacks: true
   - ISP Router:
       icon: router.svg
       href: http://box.{{HOMEPAGE_VAR_TLD}}/
@@ -21,10 +15,6 @@
       href: https://hub.{{HOMEPAGE_VAR_TLD}}
       siteMonitor: https://hub.{{HOMEPAGE_VAR_TLD}}
       description: Home automation
-      widget:
-        type: homeassistant
-        url: https://hub.{{HOMEPAGE_VAR_TLD}}
-        key: "{{op://docker/home_assistant/auth/token}}"
   - Emergency:
     - Komodo Override:
       icon: komodo.svg
@@ -39,12 +29,6 @@
       href: https://gul.{{HOMEPAGE_VAR_TLD}}:5001/
       siteMonitor: https://gul.{{HOMEPAGE_VAR_TLD}}
       description: Synology DS220J
-      widget:
-        type: diskstation
-        url: https://gul.{{HOMEPAGE_VAR_TLD}}:5001/
-        username: {{op://docker/gul_remote_stats/username}}
-        password: {{op://docker/gul_remote_stats/confirmpassword}}
-        volume: volume_1
   - Mammouth TrueNAS:
       icon: truenas.svg
       href: https://mammouth.{{HOMEPAGE_VAR_TLD}}/
