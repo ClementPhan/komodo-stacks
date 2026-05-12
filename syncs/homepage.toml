@@ -15,4 +15,7 @@ config_files = [
 pre_deploy.command = """
 sh ../../inject.sh [[OP_CONNECT_TOKEN]]
 """
-
+environment = """
+TLD = [[TLD]]
+OLD_TLD = [[OLD_TLD]]
+"""

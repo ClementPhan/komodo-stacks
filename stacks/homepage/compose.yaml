@@ -24,26 +24,27 @@ services:
     volumes:
       - ${PWD}/config:/app/config # Make sure your local config directory exists
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: www.{{op://docker/home_address/url/url}}  # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
+      HOMEPAGE_ALLOWED_HOSTS: www.${TLD}  # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
+      HOMEPAGE_VAR_TLD: ${TLD} 
     labels:
       traefik.enable: true
       # Router for homepage
-      traefik.http.routers.homepage.rule: Host(`www.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.homepage.rule: Host(`www.${TLD}`)
       traefik.http.routers.homepage.entrypoints: websecure
       traefik.http.routers.homepage.tls.certresolver: myresolver
       traefik.http.services.homepage.loadbalancer.server.port: 3000
       # Router for redirection to base domain
-      traefik.http.routers.homepage_redirect.rule: HostRegexp(`([a-zA-Z0-9\-]\.)?{{op://docker/home_address/url/url}}`) || HostRegexp(`([a-zA-Z0-9\-]+\.)?{{op://docker/home_address/url/old_url}}`)
+      traefik.http.routers.homepage_redirect.rule: HostRegexp(`([a-zA-Z0-9\-]\.)?${TLD}`) || HostRegexp(`([a-zA-Z0-9\-]+\.)?${OLD_TLD}`)
       traefik.http.routers.homepage_redirect.priority: 2
       traefik.http.routers.homepage_redirect.entrypoints: websecure
       traefik.http.routers.homepage_redirect.tls.certresolver: myresolver
-      traefik.http.routers.homepage_redirect.tls.domains[0].main: '{{op://docker/home_address/url/url}}'
-      traefik.http.routers.homepage_redirect.tls.domains[1].main: '*.{{op://docker/home_address/url/url}}'
-      traefik.http.routers.homepage_redirect.tls.domains[2].main: '{{op://docker/home_address/url/old_url}}'
-      traefik.http.routers.homepage_redirect.tls.domains[3].main: '*.{{op://docker/home_address/url/old_url}}'
+      traefik.http.routers.homepage_redirect.tls.domains[0].main: '${TLD}'
+      traefik.http.routers.homepage_redirect.tls.domains[1].main: '*.${TLD}'
+      traefik.http.routers.homepage_redirect.tls.domains[2].main: '${OLD_TLD}'
+      traefik.http.routers.homepage_redirect.tls.domains[3].main: '*.${OLD_TLD}'
       traefik.http.routers.homepage_redirect.middlewares: 'redirection'
       traefik.http.middlewares.redirection.redirectregex.regex: .*
-      traefik.http.middlewares.redirection.redirectregex.replacement: https://www.{{op://docker/home_address/url/url}}
+      traefik.http.middlewares.redirection.redirectregex.replacement: https://www.${TLD}
     networks:
       traefik_proxy: {}
       default: {}
