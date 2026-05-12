@@ -12,7 +12,7 @@ services:
       - ${PWD}/lets-encrypt.pem:/etc/lets-encrypt.pem:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.uptime-kuma.rule: Host(`uptime-kuma.{{op://docker/home_address/url/url}}`)
+      traefik.http.routers.uptime-kuma.rule: Host(`uptime-kuma.${TLD}`)
       traefik.http.routers.uptime-kuma.entrypoints: websecure
       traefik.http.routers.uptime-kuma.tls.certresolver: myresolver
       traefik.http.services.uptime-kuma.loadbalancer.server.port: 3001
@@ -20,7 +20,7 @@ services:
       homepage.group: Network
       homepage.name: Uptime-Kuma
       homepage.icon: uptime-kuma
-      homepage.href: https://uptime-kuma.{{op://docker/home_address/url/url}}/
+      homepage.href: https://uptime-kuma.${TLD}/
       homepage.description: Uptime monitor
     networks:
       traefik_proxy: {}
