@@ -4,7 +4,7 @@ http:
     komodo:
       entryPoints: websecure
       service: komodo
-      rule: Host(`komodo.{{op://docker/home_address/url/url}}`)
+      rule: Host(`komodo.{{ env "TLD" }}`)
       tls:
         certresolver: myresolver
 
@@ -12,7 +12,7 @@ http:
     komodo_webhooks:
       entryPoints: ext_websecure
       service: komodo
-      rule: Host(`komodo.external.{{op://docker/home_address/url/url}}`) && PathPrefix(`/listener`)
+      rule: Host(`komodo.external.{{ env "TLD" }}`) && PathPrefix(`/listener`)
       tls:
         certresolver: myresolver
 
@@ -21,4 +21,4 @@ http:
     komodo:
       loadBalancer:
         servers:
-          - url: http://services.mammouth.{{op://docker/home_address/url/url}}:30160
+          - url: http://services.mammouth.{{ env "TLD" }}:30160
