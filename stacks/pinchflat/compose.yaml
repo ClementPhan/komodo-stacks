@@ -5,8 +5,8 @@ services:
       - "TZ=Europe/Paris"
       - "JOURNAL_MODE=delete" # For NFS share
       - "YT_DLP_WORKER_CONCURRENCY=1"
-    ports:
-      - 8945:8945
+    # ports:
+    #   - 8945:8945
     volumes:
       - /mnt/software/applications/pinchflat/data:/config
       - /mnt/bulk/media/audio/podcasts/pinchflat:/downloads/podcasts
@@ -17,7 +17,7 @@ services:
       traefik.http.routers.pinchflat.entrypoints: websecure
       traefik.http.routers.pinchflat.tls.certresolver: myresolver
       traefik.http.services.pinchflat.loadbalancer.server.port: 8945
-      #  Homepage configuration
+      # Homepage configuration
       homepage.group: Media & Data
       homepage.name: PinchFlat
       homepage.icon: pinchflat.png
@@ -30,3 +30,4 @@ services:
 networks:
   traefik_proxy:
     external: true
+
