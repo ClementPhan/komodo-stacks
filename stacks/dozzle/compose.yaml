@@ -1,0 +1,49 @@
+# Run with docker compose up -d
+services:
+  dozzle:
+    image: amir20/dozzle:v10.6.2
+    container_name: dozzle
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/software/applications/dozzle:/data
+    # ports:
+    #   - 8080:8080
+    environment:
+      # Uncomment to enable container actions (stop, start, restart). See https://dozzle.dev/guide/actions
+      # - DOZZLE_ENABLE_ACTIONS=true
+      #
+      # Uncomment to allow access to container shells. See https://dozzle.dev/guide/shell
+      # - DOZZLE_ENABLE_SHELL=true
+      #
+      # Uncomment to enable authentication. See https://dozzle.dev/guide/authentication
+      # - DOZZLE_AUTH_PROVIDER=simple
+      #
+      # Label this Dozzle instance (shown in the header and multi-host menu). See https://dozzle.dev/guide/hostname
+      # - DOZZLE_HOSTNAME=my-server
+      #
+      # Connect to one or more remote agents to monitor other Docker hosts. See https://dozzle.dev/guide/agent
+      # - DOZZLE_REMOTE_AGENT=192.168.1.10:7007,192.168.1.11:7007
+      #
+      # Only show containers matching a filter. See https://dozzle.dev/guide/filters
+      # - DOZZLE_FILTER=label=com.example.app
+
+    labels:
+      # Traefik configuration
+      traefik.enable: true
+      traefik.http.routers.rule: Host(`dozzle.${TLD}`)
+      traefik.http.routers.dozzle.entrypoints: websecure
+      traefik.http.routers.dozzle.tls.certresolver: myresolver
+      traefik.http.services.dozzle.loadbalancer.server.port: 8080
+      docker-volume-backup.stop-during-backup: true
+      # Homepage configuration
+      homepage.group: Network
+      homepage.name: Dozzle
+      homepage.icon: dozzle
+      homepage.href: https://dozzle.${TLD}/
+      homepage.description: Log viewer
+    networks:
+      traefik_proxy: {}
+
+networks:
+  traefik_proxy:
+    external: true
