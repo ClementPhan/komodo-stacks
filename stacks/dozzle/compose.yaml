@@ -30,7 +30,7 @@ services:
     labels:
       # Traefik configuration
       traefik.enable: true
-      traefik.http.routers.rule: Host(`dozzle.${TLD}`)
+      traefik.http.routers.dozzle.rule: Host(`dozzle.${TLD}`)
       traefik.http.routers.dozzle.entrypoints: websecure
       traefik.http.routers.dozzle.tls.certresolver: myresolver
       traefik.http.services.dozzle.loadbalancer.server.port: 8080
