@@ -5,6 +5,7 @@ services:
     container_name: homebox
     restart: unless-stopped
     environment:
+    - TZ=Europe/Paris
     - HBOX_LOG_LEVEL=info
     - HBOX_LOG_FORMAT=text
     - HBOX_WEB_MAX_UPLOAD_SIZE=10
