@@ -8,7 +8,8 @@ services:
       - /mnt/software/applications/dozzle:/data
     # ports:
     #   - 8080:8080
-    # environment:
+    environment:
+      - DOZZLE_NO_ANALYTICS=true
       # Uncomment to enable container actions (stop, start, restart). See https://dozzle.dev/guide/actions
       # - DOZZLE_ENABLE_ACTIONS=true
       #
@@ -19,7 +20,7 @@ services:
       # - DOZZLE_AUTH_PROVIDER=simple
       #
       # Label this Dozzle instance (shown in the header and multi-host menu). See https://dozzle.dev/guide/hostname
-      # - DOZZLE_HOSTNAME=my-server
+      - DOZZLE_HOSTNAME=mammouth
       #
       # Connect to one or more remote agents to monitor other Docker hosts. See https://dozzle.dev/guide/agent
       # - DOZZLE_REMOTE_AGENT=192.168.1.10:7007,192.168.1.11:7007
