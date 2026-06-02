@@ -52,3 +52,10 @@ endpoints:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "has([BODY].Version) == true"
+
+  - name: Dozzle
+    group: Administration
+    url: "http://dozzle.${TLD}/healthcheck"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
