@@ -25,10 +25,15 @@ entryPoints:
           to: websecure
           scheme: https
   websecure:
+    asDefault: true
     address: ":443"
     http:
       middlewares:
         - ip_allow_lan_and_vpn_middleware@file
+    http3: {}
+
+  dns_over_tls:
+    address: ":853"
 
   ext_web:
     address: ":9080"
