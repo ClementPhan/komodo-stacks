@@ -5,17 +5,25 @@ services:
     image: ghcr.io/bakito/adguardhome-sync
     container_name: adguardhome-sync
     command: run --config /config/adguardhome-sync.yaml
-    volumes:
-      - ${PWD}/sync_config/adguardhome-sync.yaml:/config/adguardhome-sync.yaml
     # ports:
     #   - 8080:8080
     restart: unless-stopped
+    environment:
+      - TZ=Europe/Paris
+      - ORIGIN_URL=https://adguard.${TLD}
+      - ORIGIN_USERNAME={{op://docker/adguard_home/username}}
+      - ORIGIN_PASSWORD={{op://docker/adguard_home/password}}
+      - ORIGIN_AUTO_SETUP=true
+      - REPLICA1_URL=http://hub.${TLD}:3000
+      - REPLICA1_USERNAME={{op://docker/home_assistant_daemon/username}}
+      - REPLICA1_PASSWORD={{op://docker/home_assistant_daemon/password}}
+      - REPLICA1_AUTO_SETUP=true
     labels:
       traefik.enable: true
-      traefik.http.routers.adguard-admin.rule: Host(`adguard-sync.${TLD}`)
-      traefik.http.routers.adguard-admin.entrypoints: websecure
-      traefik.http.routers.adguard-admin.tls.certresolver: myresolver
-      traefik.http.services.adguard-admin.loadbalancer.server.port: 8080
+      traefik.http.routers.adguard-sync.rule: Host(`adguard-sync.${TLD}`)
+      traefik.http.routers.adguard-sync.entrypoints: websecure
+      traefik.http.routers.adguard-sync.tls.certresolver: myresolver
+      traefik.http.services.adguard-sync.loadbalancer.server.port: 8080
       # Homepage configuration
       homepage.group: Network
       homepage.name: Adguard Sync
@@ -39,8 +47,8 @@ services:
       # - 443:443/tcp
       # - 443:443/udp
       # - 3000:3000/tcp
-      - 853:853/tcp # DNS-over-TLS
-      - 853:853/udp # DNS-over-QUIC
+      # - 853:853/tcp # DNS-over-TLS
+      # - 853:853/udp # DNS-over-QUIC
       # - 6060:6060/tcp # Debuging
     labels:
       traefik.enable: true
@@ -48,17 +56,7 @@ services:
       traefik.http.routers.adguard-admin.rule: Host(`adguard.${TLD}`)
       traefik.http.routers.adguard-admin.entrypoints: websecure
       traefik.http.routers.adguard-admin.tls.certresolver: myresolver
-      traefik.http.services.adguard-admin.loadbalancer.server.port: 3000
-      # DNS over https
-      traefik.http.routers.adguard-dns-https.rule: Host(`dns01.${TLD}`)
-      traefik.http.routers.adguard-dns-https.entrypoints: websecure
-      traefik.http.routers.adguard-dns-https.tls.certresolver: myresolver
-      traefik.http.services.adguard-dns-https.loadbalancer.server.port: 80
-      # DNS over TLS
-      traefik.tcp.routers.adguard-dns_tls.rule: HostSNI(`dns01.${TLD}`) # change with your own domain/sub domain
-      traefik.tcp.routers.adguard-dns_tls.entrypoints: dns_over_tls
-      traefik.tcp.routers.adguard-dns_tls.tls.certresolver: letsencrypt
-      traefik.tcp.services.adguard-dns_tls.loadbalancer.server.port: 53
+      traefik.http.services.adguard-admin.loadbalancer.server.port: 80
       # Homepage configuration
       homepage.group: Network
       homepage.name: Adguard Home
