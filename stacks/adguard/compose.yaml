@@ -10,6 +10,7 @@ services:
     restart: unless-stopped
     environment:
       - TZ=Europe/Paris
+      - CRON_SCHEDULE=0 * * * *
       - ORIGIN_URL=https://adguard.${TLD}
       - ORIGIN_USERNAME={{op://docker/adguard_home/username}}
       - ORIGIN_PASSWORD={{op://docker/adguard_home/password}}
@@ -38,8 +39,8 @@ services:
     container_name: adguardhome
     restart: unless-stopped
     volumes:
-      - /my/own/workdir:/opt/adguardhome/work
-      - /my/own/confdir:/opt/adguardhome/conf
+      - /mnt/software/applications/adguard/adguard_home:/opt/adguardhome/work
+      - /mnt/software/applications/adguard/adguard_sync/:/opt/adguardhome/conf
     ports:
       - 53:53/tcp
       - 53:53/udp
