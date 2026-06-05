@@ -10,6 +10,7 @@ services:
     restart: unless-stopped
     environment:
       - TZ=Europe/Paris
+      - RUN_ON_START=false
       - CRON_SCHEDULE=0 * * * *
       - ORIGIN_URL=https://adguard.${TLD}
       - ORIGIN_USERNAME={{op://docker/adguard_home/username}}
