@@ -45,8 +45,8 @@ services:
     ports:
       - {{op://docker/TrueNas/config/services_ip}}:53:53/tcp
       - {{op://docker/TrueNas/config/services_ip}}:53:53/udp
-      - {{op://docker/TrueNas/config/services_ipv6}}:53:53/tcp
-      - {{op://docker/TrueNas/config/services_ipv6}}:53:53/udp
+      - [{{op://docker/TrueNas/config/services_ipv6}}]:53:53/tcp
+      - [{{op://docker/TrueNas/config/services_ipv6}}]:53:53/udp
       # - 80:80/tcp
       # - 443:443/tcp
       # - 443:443/udp
