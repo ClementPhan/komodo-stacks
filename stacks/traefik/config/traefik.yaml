@@ -25,6 +25,7 @@ entryPoints:
           to: websecure
           scheme: https
   websecure:
+    asDefault: true
     address: ":443"
     http:
       middlewares:

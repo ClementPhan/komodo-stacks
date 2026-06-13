@@ -14,4 +14,6 @@ sh ../../inject.sh [[OP_CONNECT_TOKEN]]
 """
 environment = """
 TLD = [[TLD]]
+MAMMOUTH_IP = [[MAMMOUTH_IP]]
+HUB_IP = [[HUB_IP]]
 """
