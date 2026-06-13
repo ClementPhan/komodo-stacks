@@ -62,7 +62,7 @@ endpoints:
 
   - name: AdGuard Dashboard on Mammouth
     group: Network
-    url: "http://adguard.${TLD}"
+    url: "https://adguard.${TLD}"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
@@ -78,9 +78,9 @@ endpoints:
 
   - name: AdGuard Dashboard on Hub
     group: Network
-    url: "http://hub.${TLD}:3000"
+    url: "https://hub.${TLD}:3000"
     conditions:
-      - "[STATUS] == 200"
+      - "[STATUS] == 400"
       - "[CERTIFICATE_EXPIRATION] > 48h"
 
   - name: AdGuard DNS Service on Hub
@@ -90,7 +90,8 @@ endpoints:
       query-name: "healthcheck.adguardhome.test."
       query-type: "A"
     conditions:
-      - "[DNS_RCODE] == NODATA"
+      - "[DNS_RCODE] == NOERROR"
+      - "BODY == 1.1.1.1"
 
   - name: AdGuard Sync
     group: Network
