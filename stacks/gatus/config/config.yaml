@@ -74,13 +74,13 @@ endpoints:
       query-name: "healthcheck.adguardhome.test."
       query-type: "A"
     conditions:
-      - "[DNS_RCODE] == NODATA"
+      - "[DNS_RCODE] == NOERROR"
 
   - name: AdGuard Dashboard on Hub
     group: Network
     url: "https://hub.${TLD}:3000"
     conditions:
-      - "[STATUS] == 400"
+      - "[STATUS] == 401"
       - "[CERTIFICATE_EXPIRATION] > 48h"
 
   - name: AdGuard DNS Service on Hub
@@ -91,7 +91,6 @@ endpoints:
       query-type: "A"
     conditions:
       - "[DNS_RCODE] == NOERROR"
-      - "BODY == "
 
   - name: AdGuard Sync
     group: Network
