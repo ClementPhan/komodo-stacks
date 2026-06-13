@@ -9,8 +9,6 @@ services:
       - {{op://docker/TrueNas/config/services_ip}}:443:443/udp
       - {{op://docker/TrueNas/config/services_ip}}:9080:9080
       - {{op://docker/TrueNas/config/services_ip}}:9443:9443
-      - {{op://docker/TrueNas/config/services_ip}}:853:853/tcp
-      - {{op://docker/TrueNas/config/services_ip}}:853:853/udp
     environment:
       - OVH_ENDPOINT={{op://docker/ovh/server/endpoint}}
       - OVH_APPLICATION_KEY={{op://docker/ovh/secrets/app_key}}
