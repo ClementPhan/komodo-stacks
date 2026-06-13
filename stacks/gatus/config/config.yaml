@@ -91,7 +91,7 @@ endpoints:
       query-type: "A"
     conditions:
       - "[DNS_RCODE] == NOERROR"
-      - "BODY == 1.1.1.1"
+      - "BODY == "
 
   - name: AdGuard Sync
     group: Network
