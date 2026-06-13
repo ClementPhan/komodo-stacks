@@ -5,8 +5,7 @@ services:
     restart: always
     ports:
       - {{op://docker/TrueNas/config/services_ip}}:80:80
-      - {{op://docker/TrueNas/config/services_ip}}:443:443/tcp
-      - {{op://docker/TrueNas/config/services_ip}}:443:443/udp
+      - {{op://docker/TrueNas/config/services_ip}}:443:443
       - {{op://docker/TrueNas/config/services_ip}}:9080:9080
       - {{op://docker/TrueNas/config/services_ip}}:9443:9443
     environment:
