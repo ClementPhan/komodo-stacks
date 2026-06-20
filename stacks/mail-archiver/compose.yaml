@@ -1,6 +1,6 @@
 services:
   mailarchive-app:
-    image: s1t5/mailarchiver:2606.2@sha256:9860b170040dc096aeedc47bdbb09e2913aa8742eec205e29edd0ab79f9dda7e
+    image: s1t5/mailarchiver:2606.3@sha256:9ab6f51fa036c7869f64cb052a18f7bb8b9951a120ce1c03df43a273a20d3f59
     restart: always
     environment:
       # Database Connection
