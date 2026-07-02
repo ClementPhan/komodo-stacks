@@ -8,6 +8,9 @@ services:
       - TLD=${TLD}
       - MAMMOUTH_IP=${MAMMOUTH_IP}
       - HUB_IP=${HUB_IP}
+      - HASS_TOKEN={{op://docker/home_assistant/auth/token}}
+      - PUSHOVER_USER_KEY={{op://docker/pushover/user/user_key}}
+      - PUSHOVER_APP_TOKEN={{op://docker/pushover/app_keys/gatus}}
     volumes:
       - /mnt/software/applications/gatus/data:/data/
       - ./config:/config

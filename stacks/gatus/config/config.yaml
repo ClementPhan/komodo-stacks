@@ -1,49 +1,87 @@
+# Anchors for default conditions and tests
+default-conditions: &conditions
+  conditions:
+    - "[STATUS] == 200"
+    - "[CERTIFICATE_EXPIRATION] > 48h"
+
+adguard-dns-test: &dns-test
+  dns:
+    query-name: "healthcheck.adguardhome.test."
+    query-type: "A"
+  conditions:
+    - "[DNS_RCODE] == NOERROR"
+
+# Storage configuration
 storage:
   type: sqlite
   path: /data/data.db
 
+# Alerting configuration
+alerting:
+  pushover:
+    user-key: "${PUSHOVER_USER_KEY}"
+    application-token: "${PUSHOVER_APP_TOKEN}"
+    priority: -1
+    default-alert:
+      description: "health check failed"
+      send-on-resolved: true
+      failure-threshold: 2
+      success-threshold: 2
+
+# Maintenance configuration
+maintenance:
+  start: 04:58
+  duration: 5m
+  timezone: "Europe/Paris"
+
+# Endpoints to monitor
 endpoints:
+  # DNS
+  - name: DNS on Hub
+    group: DNS
+    url: "${HUB_IP}" # Address of the DNS server to use
+    <<: *dns-test
+    alerts:
+      - type: pushover
+
+  - name: DNS on Mammouth
+    group: DNS
+    url: "${MAMMOUTH_IP}" # Address of the DNS server to use
+    <<: *dns-test
+    alerts:
+      - type: pushover
+
+  # Administration
   - name: Komodo
-    group: core
+    group: Administration
     url: "https://komodo.${TLD}"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    <<: *conditions
+    alerts:
+      - type: pushover
 
   - name: idrac
-    group: internal
+    group: Administration
     url: "https://idrac.${TLD}"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    interval: 5m
+    <<: *conditions
+    alerts:
+      - type: pushover
 
-  - name: Gul
-    group: internal
-    url: "https://gul.${TLD}"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+  - name: Dozzle
+    group: Administration
+    url: "http://dozzle.${TLD}/healthcheck"
+    <<: *conditions
+    alerts:
+      - type: pushover
 
+  # Network and infrastructure
   - name: Box
     group: Network
     url: "http://box.${TLD}"
     conditions:
       - "[STATUS] == 200"
-
-  - name: PeaNUT
-    group: Network
-    url: "http://peanut.${TLD}/api/ping"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
-      - "[BODY] == \"pong\""
-
-  - name: Pocket ID
-    group: Network
-    url: "http://pocketid.${TLD}/healthz"
-    conditions:
-      - "[STATUS] == 204"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    alerts:
+      - type: pushover
 
   - name: Traefik
     group: Network
@@ -52,49 +90,68 @@ endpoints:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "has([BODY].Version) == true"
+    alerts:
+      - type: pushover
 
-  - name: Dozzle
-    group: Administration
-    url: "http://dozzle.${TLD}/healthcheck"
+  # Devices
+  - name: Gul
+    group: Devices
+    url: "https://gul.${TLD}"
+    <<: *conditions
+    alerts:
+      - type: pushover
+
+  - name: PeaNUT
+    group: Devices
+    url: "http://peanut.${TLD}/api/ping"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
+      - '[BODY] == "pong"'
+    alerts:
+      - type: pushover
 
-  - name: AdGuard Dashboard on Mammouth
-    group: Network
+  - name: Home Assistant
+    group: Devices
+    url: "http://hub.${TLD}/api/"
+    headers:
+      Authorization: "Bearer ${HASS_TOKEN}"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].message == API running."
+    alerts:
+      - type: pushover
+
+  # Containers and services
+  - name: Pocket ID
+    group: Services
+    url: "http://pocketid.${TLD}/healthz"
+    conditions:
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[STATUS] == 204"
+    alerts:
+      - type: pushover
+
+  - name: AdGuard on Mammouth
+    group: Services
     url: "https://adguard.${TLD}"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    <<: *conditions
+    alerts:
+      - type: pushover
 
-  - name: AdGuard DNS Service on Mammouth
-    group: Network
-    url: "${MAMMOUTH_IP}" # Address of the DNS server to use
-    dns:
-      query-name: "healthcheck.adguardhome.test."
-      query-type: "A"
-    conditions:
-      - "[DNS_RCODE] == NOERROR"
-
-  - name: AdGuard Dashboard on Hub
-    group: Network
+  - name: AdGuard on Hub
+    group: Services
     url: "https://hub.${TLD}:3000"
     conditions:
       - "[STATUS] == 401"
       - "[CERTIFICATE_EXPIRATION] > 48h"
-
-  - name: AdGuard DNS Service on Hub
-    group: Network
-    url: "${HUB_IP}" # Address of the DNS server to use
-    dns:
-      query-name: "healthcheck.adguardhome.test."
-      query-type: "A"
-    conditions:
-      - "[DNS_RCODE] == NOERROR"
+    alerts:
+      - type: pushover
 
   - name: AdGuard Sync
-    group: Network
+    group: Services
     url: "http://adguard-sync.${TLD}"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    <<: *conditions
+    alerts:
+      - type: pushover
