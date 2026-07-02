@@ -1,3 +1,15 @@
+default-conditions: &conditions
+  conditions:
+    - "[STATUS] == 200"
+    - "[CERTIFICATE_EXPIRATION] > 48h"
+
+adguard-dns-conditions: &dns-conditions
+  dns:
+    query-name: "healthcheck.adguardhome.test."
+    query-type: "A"
+  conditions:
+    - "[DNS_RCODE] == NOERROR"
+
 storage:
   type: sqlite
   path: /data/data.db
@@ -6,23 +18,17 @@ endpoints:
   - name: Komodo
     group: core
     url: "https://komodo.${TLD}"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    <<: *conditions
 
   - name: idrac
     group: internal
     url: "https://idrac.${TLD}"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    <<: *conditions
 
   - name: Gul
     group: internal
     url: "https://gul.${TLD}"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    <<: *conditions
 
   - name: Box
     group: Network
@@ -33,68 +39,50 @@ endpoints:
   - name: PeaNUT
     group: Network
     url: "http://peanut.${TLD}/api/ping"
+    <<: *conditions
     conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
-      - "[BODY] == \"pong\""
+      - '[BODY] == "pong"'
 
   - name: Pocket ID
     group: Network
     url: "http://pocketid.${TLD}/healthz"
-    conditions:
-      - "[STATUS] == 204"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    <<: *conditions
 
   - name: Traefik
     group: Network
     url: "http://traefik.${TLD}/api/version"
+    <<: *conditions
     conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
       - "has([BODY].Version) == true"
 
   - name: Dozzle
     group: Administration
     url: "http://dozzle.${TLD}/healthcheck"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    <<: *conditions
 
   - name: AdGuard Dashboard on Mammouth
     group: Network
     url: "https://adguard.${TLD}"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    <<: *conditions
 
   - name: AdGuard DNS Service on Mammouth
     group: Network
     url: "${MAMMOUTH_IP}" # Address of the DNS server to use
-    dns:
-      query-name: "healthcheck.adguardhome.test."
-      query-type: "A"
-    conditions:
-      - "[DNS_RCODE] == NOERROR"
+    <<: *dns-conditions
 
   - name: AdGuard Dashboard on Hub
     group: Network
     url: "https://hub.${TLD}:3000"
+    <<: *conditions
     conditions:
       - "[STATUS] == 401"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
 
   - name: AdGuard DNS Service on Hub
     group: Network
     url: "${HUB_IP}" # Address of the DNS server to use
-    dns:
-      query-name: "healthcheck.adguardhome.test."
-      query-type: "A"
-    conditions:
-      - "[DNS_RCODE] == NOERROR"
+    <<: *dns-conditions
 
   - name: AdGuard Sync
     group: Network
     url: "http://adguard-sync.${TLD}"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    <<: *conditions
