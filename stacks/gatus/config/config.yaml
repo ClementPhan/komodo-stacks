@@ -111,7 +111,7 @@ endpoints:
       - type: pushover-default
 
   - name: Home Assistant
-    group: Network
+    group: Devices
     url: "http://hub.${TLD}/api/"
     headers:
       Authorization: "Bearer ${HASS_TOKEN}"
