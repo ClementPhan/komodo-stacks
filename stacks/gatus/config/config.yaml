@@ -96,4 +96,4 @@ endpoints:
       Authorization: "Bearer ${HASS_TOKEN}"
     <<: *conditions
     conditions:
-      - "[BODY].message == 'API running.'"
+      - '[BODY].message == "API running."'
