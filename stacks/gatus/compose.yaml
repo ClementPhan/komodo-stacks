@@ -8,6 +8,7 @@ services:
       - TLD=${TLD}
       - MAMMOUTH_IP=${MAMMOUTH_IP}
       - HUB_IP=${HUB_IP}
+      - HASS_TOKEN={{op://docker/home_assistant/auth/token}}
     volumes:
       - /mnt/software/applications/gatus/data:/data/
       - ./config:/config

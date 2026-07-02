@@ -88,3 +88,12 @@ endpoints:
     group: Network
     url: "http://adguard-sync.${TLD}"
     <<: *conditions
+
+  - name: Home Assistant
+    group: Network
+    url: "http://hub.${TLD}/api/"
+    headers:
+      Authorization: "Bearer ${HASS_TOKEN}"
+    <<: *conditions
+    conditions:
+      - "[BODY].message == 'API running.'"
