@@ -47,6 +47,8 @@ endpoints:
     group: Network
     url: "http://pocketid.${TLD}/healthz"
     <<: *conditions
+    conditions:
+      - "[STATUS] == 204"
 
   - name: Traefik
     group: Network
