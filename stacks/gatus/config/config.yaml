@@ -62,6 +62,7 @@ endpoints:
   - name: idrac
     group: Administration
     url: "https://idrac.${TLD}"
+    interval: 5m
     <<: *conditions
     alerts:
       - type: pushover
