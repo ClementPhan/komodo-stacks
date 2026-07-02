@@ -18,41 +18,39 @@ storage:
 
 # Endpoints to monitor
 endpoints:
+  # DNS
+  - name: DNS on Hub
+    group: DNS
+    url: "${HUB_IP}" # Address of the DNS server to use
+    <<: *dns-test
+
+  - name: DNS on Mammouth
+    group: DNS
+    url: "${MAMMOUTH_IP}" # Address of the DNS server to use
+    <<: *dns-test
+
+  # Administration
   - name: Komodo
-    group: core
+    group: Administration
     url: "https://komodo.${TLD}"
     <<: *conditions
 
   - name: idrac
-    group: internal
+    group: Administration
     url: "https://idrac.${TLD}"
     <<: *conditions
 
-  - name: Gul
-    group: internal
-    url: "https://gul.${TLD}"
+  - name: Dozzle
+    group: Administration
+    url: "http://dozzle.${TLD}/healthcheck"
     <<: *conditions
 
+  # Network and infrastructure
   - name: Box
     group: Network
     url: "http://box.${TLD}"
     conditions:
       - "[STATUS] == 200"
-
-  - name: PeaNUT
-    group: Network
-    url: "http://peanut.${TLD}/api/ping"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
-      - '[BODY] == "pong"'
-
-  - name: Pocket ID
-    group: Network
-    url: "http://pocketid.${TLD}/healthz"
-    conditions:
-      - "[CERTIFICATE_EXPIRATION] > 48h"
-      - "[STATUS] == 204"
 
   - name: Traefik
     group: Network
@@ -62,38 +60,19 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "has([BODY].Version) == true"
 
-  - name: Dozzle
-    group: Administration
-    url: "http://dozzle.${TLD}/healthcheck"
+  # Devices
+  - name: Gul
+    group: Devices
+    url: "https://gul.${TLD}"
     <<: *conditions
 
-  - name: AdGuard Dashboard on Mammouth
-    group: Network
-    url: "https://adguard.${TLD}"
-    <<: *conditions
-
-  - name: AdGuard DNS Service on Mammouth
-    group: Network
-    url: "${MAMMOUTH_IP}" # Address of the DNS server to use
-    <<: *dns-test
-
-  - name: AdGuard Dashboard on Hub
-    group: Network
-    url: "https://hub.${TLD}:3000"
+  - name: PeaNUT
+    group: Devices
+    url: "http://peanut.${TLD}/api/ping"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
-      - "[STATUS] == 401"
-
-  - name: AdGuard DNS Service on Hub
-    group: Network
-    url: "${HUB_IP}" # Address of the DNS server to use
-    <<: *dns-test
-
-  - name: AdGuard Sync
-    group: Network
-    url: "http://adguard-sync.${TLD}"
-    <<: *conditions
+      - '[BODY] == "pong"'
 
   - name: Home Assistant
     group: Network
@@ -102,4 +81,31 @@ endpoints:
       Authorization: "Bearer ${HASS_TOKEN}"
     <<: *conditions
     conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY].message == API running."
+
+  # Containers and services
+  - name: Pocket ID
+    group: Services
+    url: "http://pocketid.${TLD}/healthz"
+    conditions:
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[STATUS] == 204"
+
+  - name: AdGuard on Mammouth
+    group: Services
+    url: "https://adguard.${TLD}"
+    <<: *conditions
+
+  - name: AdGuard on Hub
+    group: Services
+    url: "https://hub.${TLD}:3000"
+    conditions:
+      - "[STATUS] == 401"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+
+  - name: AdGuard Sync
+    group: Services
+    url: "http://adguard-sync.${TLD}"
+    <<: *conditions
