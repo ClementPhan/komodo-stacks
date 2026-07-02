@@ -18,7 +18,7 @@ storage:
 
 # Alerting configuration
 alerting:
-  pushover-default:
+  pushover:
     user-key: "${PUSHOVER_USER_KEY}"
     application-token: "${PUSHOVER_APP_TOKEN}"
     priority: -1
@@ -42,14 +42,14 @@ endpoints:
     url: "${HUB_IP}" # Address of the DNS server to use
     <<: *dns-test
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   - name: DNS on Mammouth
     group: DNS
     url: "${MAMMOUTH_IP}" # Address of the DNS server to use
     <<: *dns-test
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   # Administration
   - name: Komodo
@@ -57,21 +57,21 @@ endpoints:
     url: "https://komodo.${TLD}"
     <<: *conditions
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   - name: idrac
     group: Administration
     url: "https://idrac.${TLD}"
     <<: *conditions
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   - name: Dozzle
     group: Administration
     url: "http://dozzle.${TLD}/healthcheck"
     <<: *conditions
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   # Network and infrastructure
   - name: Box
@@ -80,7 +80,7 @@ endpoints:
     conditions:
       - "[STATUS] == 200"
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   - name: Traefik
     group: Network
@@ -90,7 +90,7 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "has([BODY].Version) == true"
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   # Devices
   - name: Gul
@@ -98,7 +98,7 @@ endpoints:
     url: "https://gul.${TLD}"
     <<: *conditions
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   - name: PeaNUT
     group: Devices
@@ -108,7 +108,7 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - '[BODY] == "pong"'
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   - name: Home Assistant
     group: Devices
@@ -120,7 +120,7 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY].message == API running."
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   # Containers and services
   - name: Pocket ID
@@ -130,14 +130,14 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[STATUS] == 204"
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   - name: AdGuard on Mammouth
     group: Services
     url: "https://adguard.${TLD}"
     <<: *conditions
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   - name: AdGuard on Hub
     group: Services
@@ -146,11 +146,11 @@ endpoints:
       - "[STATUS] == 401"
       - "[CERTIFICATE_EXPIRATION] > 48h"
     alerts:
-      - type: pushover-default
+      - type: pushover
 
   - name: AdGuard Sync
     group: Services
     url: "http://adguard-sync.${TLD}"
     <<: *conditions
     alerts:
-      - type: pushover-default
+      - type: pushover
