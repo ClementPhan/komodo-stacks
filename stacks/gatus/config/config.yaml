@@ -30,8 +30,8 @@ alerting:
 
 # Maintenance configuration
 maintenance:
-  start: 4:57
-  duration: 6m
+  start: 04:58
+  duration: 5m
   timezone: "Europe/Paris"
 
 # Endpoints to monitor
