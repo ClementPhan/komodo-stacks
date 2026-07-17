@@ -27,7 +27,6 @@ alerting:
     application-token: "${PUSHOVER_APP_TOKEN}"
     priority: -1
     default-alert:
-      description: "health check failed"
       send-on-resolved: true
       failure-threshold: 2
       success-threshold: 2
@@ -35,7 +34,6 @@ alerting:
     repository-url: "https://github.com/ClementPhan/homelab-issues"
     token: "${GITHUB_TOKEN}"
     default-alert:
-      description: "health check failed"
       send-on-resolved: true
       failure-threshold: 2
       success-threshold: 2
