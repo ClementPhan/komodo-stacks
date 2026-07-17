@@ -72,7 +72,7 @@ endpoints:
 
   - name: idrac
     group: Administration
-    url: "https://idrac.${TLD}"
+    url: "https://idrac.${TLD}/login.html"
     interval: 5m
     <<: [*conditions, *alerts, *ignore-redirect]
 
