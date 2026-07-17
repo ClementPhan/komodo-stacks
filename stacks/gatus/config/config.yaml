@@ -11,6 +11,10 @@ adguard-dns-test: &dns-test
   conditions:
     - "[DNS_RCODE] == NOERROR"
 
+ignore-redirections: &ignore-redirect
+  client:
+    ignore-redirect: true
+
 # Storage configuration
 storage:
   type: sqlite
@@ -64,18 +68,18 @@ endpoints:
   - name: Komodo
     group: Administration
     url: "https://komodo.${TLD}"
-    <<: [*conditions, *alerts]
+    <<: [*conditions, *alerts, &ignore-redirect]
 
   - name: idrac
     group: Administration
     url: "https://idrac.${TLD}"
     interval: 5m
-    <<: [*conditions, *alerts]
+    <<: [*conditions, *alerts, &ignore-redirect]
 
   - name: Dozzle
     group: Administration
-    url: "http://dozzle.${TLD}/healthcheck"
-    <<: [*conditions, *alerts]
+    url: "https://dozzle.${TLD}/healthcheck"
+    <<: [*conditions, *alerts, &ignore-redirect]
 
   # Network and infrastructure
   - name: Box
@@ -83,56 +87,56 @@ endpoints:
     url: "http://box.${TLD}"
     conditions:
       - "[STATUS] == 200"
-    <<: *alerts
+    <<: [*alerts, &ignore-redirect]
 
   - name: Traefik
     group: Network
-    url: "http://traefik.${TLD}/api/version"
+    url: "https://traefik.${TLD}/api/version"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "has([BODY].Version) == true"
-    <<: *alerts
+    <<: [*alerts, &ignore-redirect]
 
   # Devices
   - name: Gul
     group: Devices
     url: "https://gul.${TLD}"
-    <<: [*conditions, *alerts]
+    <<: [*conditions, *alerts, &ignore-redirect]
 
   - name: PeaNUT
     group: Devices
-    url: "http://peanut.${TLD}/api/ping"
+    url: "https://peanut.${TLD}/api/ping"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - '[BODY] == "pong"'
-    <<: *alerts
+    <<: [*alerts, &ignore-redirect]
 
   - name: Home Assistant
     group: Devices
-    url: "http://hub.${TLD}/api/"
+    url: "https://hub.${TLD}/api/"
     headers:
       Authorization: "Bearer ${HASS_TOKEN}"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY].message == API running."
-    <<: *alerts
+    <<: [*alerts, &ignore-redirect]
 
   # Containers and services
   - name: Pocket ID
     group: Services
-    url: "http://pocketid.${TLD}/healthz"
+    url: "https://pocketid.${TLD}/healthz"
     conditions:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[STATUS] == 204"
-    <<: *alerts
+    <<: [*alerts, &ignore-redirect]
 
   - name: AdGuard on Mammouth
     group: Services
     url: "https://adguard.${TLD}"
-    <<: [*conditions, *alerts]
+    <<: [*conditions, *alerts, &ignore-redirect]
 
   - name: AdGuard on Hub
     group: Services
@@ -140,9 +144,9 @@ endpoints:
     conditions:
       - "[STATUS] == 401"
       - "[CERTIFICATE_EXPIRATION] > 48h"
-    <<: *alerts
+    <<: [*alerts, &ignore-redirect]
 
   - name: AdGuard Sync
     group: Services
-    url: "http://adguard-sync.${TLD}"
-    <<: [*conditions, *alerts]
+    url: "https://adguard-sync.${TLD}"
+    <<: [*conditions, *alerts, &ignore-redirect]
