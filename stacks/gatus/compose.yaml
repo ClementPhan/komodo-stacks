@@ -6,6 +6,7 @@ services:
     #   - "8080:8080"
     environment:
       - TLD=${TLD}
+      - MAIL_TLD=${MAIL_TLD}
       - MAMMOUTH_IP=${MAMMOUTH_IP}
       - HUB_IP=${HUB_IP}
       - HASS_TOKEN={{op://docker/home_assistant/auth/token}}
