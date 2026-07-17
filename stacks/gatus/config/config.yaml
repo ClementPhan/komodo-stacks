@@ -27,6 +27,19 @@ alerting:
       send-on-resolved: true
       failure-threshold: 2
       success-threshold: 2
+  github:
+    repository-url: "https://github.com/ClementPhan/homelab-issues"
+    token: "${GITHUB_TOKEN}"
+    default-alert:
+      description: "health check failed"
+      send-on-resolved: true
+      failure-threshold: 2
+      success-threshold: 2
+
+default-alerts: &alerts
+  alerts:
+    - type: pushover
+    - type: github
 
 # Maintenance configuration
 maintenance:
@@ -41,38 +54,33 @@ endpoints:
     group: DNS
     url: "${HUB_IP}" # Address of the DNS server to use
     <<: *dns-test
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   - name: DNS on Mammouth
     group: DNS
     url: "${MAMMOUTH_IP}" # Address of the DNS server to use
     <<: *dns-test
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   # Administration
   - name: Komodo
     group: Administration
     url: "https://komodo.${TLD}"
     <<: *conditions
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   - name: idrac
     group: Administration
     url: "https://idrac.${TLD}"
     interval: 5m
     <<: *conditions
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   - name: Dozzle
     group: Administration
     url: "http://dozzle.${TLD}/healthcheck"
     <<: *conditions
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   # Network and infrastructure
   - name: Box
@@ -80,8 +88,7 @@ endpoints:
     url: "http://box.${TLD}"
     conditions:
       - "[STATUS] == 200"
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   - name: Traefik
     group: Network
@@ -90,16 +97,14 @@ endpoints:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "has([BODY].Version) == true"
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   # Devices
   - name: Gul
     group: Devices
     url: "https://gul.${TLD}"
     <<: *conditions
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   - name: PeaNUT
     group: Devices
@@ -108,8 +113,7 @@ endpoints:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - '[BODY] == "pong"'
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   - name: Home Assistant
     group: Devices
@@ -120,8 +124,7 @@ endpoints:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY].message == API running."
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   # Containers and services
   - name: Pocket ID
@@ -130,15 +133,13 @@ endpoints:
     conditions:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[STATUS] == 204"
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   - name: AdGuard on Mammouth
     group: Services
     url: "https://adguard.${TLD}"
     <<: *conditions
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   - name: AdGuard on Hub
     group: Services
@@ -146,12 +147,10 @@ endpoints:
     conditions:
       - "[STATUS] == 401"
       - "[CERTIFICATE_EXPIRATION] > 48h"
-    alerts:
-      - type: pushover
+    <<: *alerts
 
   - name: AdGuard Sync
     group: Services
     url: "http://adguard-sync.${TLD}"
     <<: *conditions
-    alerts:
-      - type: pushover
+    <<: *alerts
