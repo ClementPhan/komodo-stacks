@@ -20,6 +20,10 @@ storage:
   type: sqlite
   path: /data/data.db
 
+# default ui configuration
+ui:ui:
+  default-sort-by: group
+
 # Alerting configuration
 alerting:
   pushover:
