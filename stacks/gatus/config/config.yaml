@@ -53,34 +53,29 @@ endpoints:
   - name: DNS on Hub
     group: DNS
     url: "${HUB_IP}" # Address of the DNS server to use
-    <<: *dns-test
-    <<: *alerts
+    <<: [*dns-test, *alerts]
 
   - name: DNS on Mammouth
     group: DNS
     url: "${MAMMOUTH_IP}" # Address of the DNS server to use
-    <<: *dns-test
-    <<: *alerts
+    <<: [*dns-test, *alerts]
 
   # Administration
   - name: Komodo
     group: Administration
     url: "https://komodo.${TLD}"
-    <<: *conditions
-    <<: *alerts
+    <<: [*conditions, *alerts]
 
   - name: idrac
     group: Administration
     url: "https://idrac.${TLD}"
     interval: 5m
-    <<: *conditions
-    <<: *alerts
+    <<: [*conditions, *alerts]
 
   - name: Dozzle
     group: Administration
     url: "http://dozzle.${TLD}/healthcheck"
-    <<: *conditions
-    <<: *alerts
+    <<: [*conditions, *alerts]
 
   # Network and infrastructure
   - name: Box
@@ -103,8 +98,7 @@ endpoints:
   - name: Gul
     group: Devices
     url: "https://gul.${TLD}"
-    <<: *conditions
-    <<: *alerts
+    <<: [*conditions, *alerts]
 
   - name: PeaNUT
     group: Devices
@@ -138,8 +132,7 @@ endpoints:
   - name: AdGuard on Mammouth
     group: Services
     url: "https://adguard.${TLD}"
-    <<: *conditions
-    <<: *alerts
+    <<: [*conditions, *alerts]
 
   - name: AdGuard on Hub
     group: Services
@@ -152,5 +145,4 @@ endpoints:
   - name: AdGuard Sync
     group: Services
     url: "http://adguard-sync.${TLD}"
-    <<: *conditions
-    <<: *alerts
+    <<: [*conditions, *alerts]
