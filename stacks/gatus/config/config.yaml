@@ -51,6 +51,23 @@ maintenance:
 
 # Endpoints to monitor
 endpoints:
+  # Domains
+  - name: ${TLD}
+    group: Domains
+    url: "https://${TLD}"
+    interval: 1h
+    conditions:
+      - "[DOMAIN_EXPIRATION] > 360h"
+    <<: *alerts
+
+  - name: ${MAIL_TLD}
+    group: Domains
+    url: "https://${MAIL_TLD}"
+    interval: 1h
+    conditions:
+      - "[DOMAIN_EXPIRATION] > 360h"
+    <<: *alerts
+
   # DNS
   - name: DNS on Hub
     group: DNS
