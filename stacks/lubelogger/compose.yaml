@@ -1,0 +1,31 @@
+services:
+  app:
+    image: ghcr.io/hargata/lubelogger:v1.7.0
+    restart: unless-stopped
+    # volumes used to keep data persistent
+    volumes:
+      - mnt/software/applications/lubelogger/data:/App/data
+      - mnt/software/applications/lubelogger/keys:/root/.aspnet/DataProtection-Keys
+    # expose port and/or use serving via traefik
+    # ports:
+    #   - 8080:8080
+    labels:
+      # Traefik configuration
+      traefik.enable: true
+      traefik.http.routers.lubelogger.rule: Host(`lubelogger.${TLD}`)
+      traefik.http.routers.lubelogger.entrypoints: websecure
+      traefik.http.routers.lubelogger.tls.certresolver: myresolver
+      traefik.http.services.lubelogger.loadbalancer.server.port: 8080
+      docker-volume-backup.stop-during-backup: true
+      # Homepage configuration
+      homepage.group: Media & Data
+      homepage.name: Lubelogger
+      homepage.icon: lubelogger
+      homepage.href: https://lubelogger.${TLD}/
+      homepage.description: Vehicule maintenance
+    networks:
+      traefik_proxy: {}
+
+networks:
+  traefik_proxy:
+    external: true
