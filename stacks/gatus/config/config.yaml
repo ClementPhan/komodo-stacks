@@ -169,3 +169,8 @@ endpoints:
     group: Services
     url: "https://adguard-sync.${TLD}"
     <<: [*conditions, *alerts, *ignore-redirect]
+
+  - name: Paperless
+    group: Services
+    url: "https://paperless.${TLD}"
+    <<: [*conditions, *alerts, *ignore-redirect]
