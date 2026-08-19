@@ -176,7 +176,7 @@ endpoints:
     headers:
       Authorization: "Token ${PAPERLESS_TOKEN}"
       accept: "application/json"
-    # interval: 5m
+    interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
@@ -185,5 +185,4 @@ endpoints:
       - "[BODY].tasks.index_status == OK"
       - "[BODY].tasks.classifier_status == OK"
       - "[BODY].tasks.sanity_check_status == OK"
-    <<: [*alerts]
-    # <<: [*alerts, *ignore-redirect]
+    <<: [*alerts, *ignore-redirect]
