@@ -1,0 +1,62 @@
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.config.file=/etc/prometheus/web.yml"
+      - "--storage.tsdb.retention.time=5y"                # Prometheus data retention period (default: 15d)
+      - "--web.external-url=https://prometheus.${TLD}" # Change this value, Prometheus external web URL (default: "")
+    # ports:
+    #   - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/rules:/etc/prometheus/rules:ro
+      - ./prometheus/web.yml:/etc/prometheus/web.yml:ro
+      - /mnt/bulk/media/database/prometheus/prometheus-storage:/prometheus
+    restart: unless-stopped
+    labels:
+      traefik.enable: true
+      traefik.http.routers.prometheus.rule: Host(`prometheus.${TLD}`)
+      traefik.http.routers.prometheus.entrypoints: websecure
+      traefik.http.routers.prometheus.tls.certresolver: myresolver
+      traefik.http.services.prometheus.loadbalancer.server.port: 9090
+      # Homepage configuration
+      homepage.group: Media & Data
+      homepage.name: Prometheus
+      homepage.icon: prometheus
+      homepage.href: https://prometheus.${TLD}/
+      homepage.description: Time series database
+    networks:
+      traefik_proxy: {}
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    # ports:
+    #   - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin                  # Grafana default admin username
+      - GF_SECURITY_ADMIN_PASSWORD=Ch@ngeThisPassw0rd # Change this value, Grafana default admin password
+    volumes:
+      - /mnt/software/applications/prometheus/grafana-storage:/var/lib/grafana
+    restart: unless-stopped
+    labels:
+      traefik.enable: true
+      traefik.http.routers.grafana.rule: Host(`grafana.${TLD}`)
+      traefik.http.routers.grafana.entrypoints: websecure
+      traefik.http.routers.grafana.tls.certresolver: myresolver
+      traefik.http.services.grafana.loadbalancer.server.port: 3000
+      # Homepage configuration
+      homepage.group: Media & Data
+      homepage.name: Grafana
+      homepage.icon: grafana
+      homepage.href: https://grafana.${TLD}/
+      homepage.description: Visualization tool
+    networks:
+      traefik_proxy: {}
+
+networks:
+  traefik_proxy:
+    external: true
+
