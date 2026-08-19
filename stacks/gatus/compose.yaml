@@ -13,6 +13,7 @@ services:
       - PUSHOVER_USER_KEY={{op://docker/pushover/user/user_key}}
       - PUSHOVER_APP_TOKEN={{op://docker/pushover/app_keys/gatus}}
       - GITHUB_TOKEN={{op://docker/github/gatus/token}}
+      - PAPERLESS_TOKEN={{op://docker/paperless/gatus/token}}
     volumes:
       - /mnt/software/applications/gatus/data:/data/
       - ./config:/config
