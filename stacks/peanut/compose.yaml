@@ -6,7 +6,7 @@ services:
     user: {{op://docker/TrueNas/unpriviledged_user/uid}}:{{op://docker/TrueNas/unpriviledged_user/gid}} # should be owner of volumes
     volumes:
       - /mnt/software/applications/peanut/config:/config
-      - app_config:/app/config
+      - /mnt/software/applications/peanut/app_config:/app/config
     # ports:
     #   - 8080:8080
     environment:
@@ -30,9 +30,6 @@ services:
       homepage.description: UPS status
     networks:
       traefik_proxy: {}
-
-volumes:
-  app_config: null
 
 networks:
   traefik_proxy:
