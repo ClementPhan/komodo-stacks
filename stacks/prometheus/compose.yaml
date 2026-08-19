@@ -14,7 +14,7 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./prometheus/rules:/etc/prometheus/rules:ro
       - ./prometheus/web.yml:/etc/prometheus/web.yml:ro
-      - /mnt/bulk/media/database/prometheus/prometheus-storage:/prometheus
+      - /mnt/bulk/media/applications/prometheus/prometheus-storage:/prometheus
     environment:
       - "TLD:${TLD}"
     restart: unless-stopped
