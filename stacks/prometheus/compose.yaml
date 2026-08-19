@@ -41,6 +41,7 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin                  # Grafana default admin username
       - GF_SECURITY_ADMIN_PASSWORD=Ch@ngeThisPassw0rd # Change this value, Grafana default admin password
+    user: {{op://docker/TrueNas/unpriviledged_user/uid}}:{{op://docker/TrueNas/unpriviledged_user/gid}} # should be owner of volumes
     volumes:
       - /mnt/software/applications/prometheus/grafana-storage:/var/lib/grafana
     restart: unless-stopped
