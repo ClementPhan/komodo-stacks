@@ -9,6 +9,7 @@ services:
       - "--web.external-url=https://prometheus.${TLD}" # Change this value, Prometheus external web URL (default: "")
     # ports:
     #   - "9090:9090"
+    user: {{op://docker/TrueNas/unpriviledged_user/uid}}:{{op://docker/TrueNas/unpriviledged_user/gid}} # should be owner of volumes
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./prometheus/rules:/etc/prometheus/rules:ro
