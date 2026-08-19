@@ -172,5 +172,16 @@ endpoints:
 
   - name: Paperless
     group: Services
-    url: "https://paperless.${TLD}"
-    <<: [*conditions, *alerts, *ignore-redirect]
+    url: "https://paperless.${TLD}/api/status"
+    headers:
+      Authorization: "Token ${PAPERLESS_TOKEN}"
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].database.status == OK"
+      - "[BODY].tasks.celery_status == OK"
+      - "[BODY].tasks.index_status == OK"
+      - "[BODY].tasks.classifier_status == OK"
+      - "[BODY].tasks.sanity_check_status == OK"
+    <<: [*alerts, *ignore-redirect]
