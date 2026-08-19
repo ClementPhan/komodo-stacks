@@ -5,6 +5,7 @@ services:
     # ports:
     #   - "8080:8080"
     environment:
+      - GATUS_LOG_LEVEL=DEBUG
       - TLD=${TLD}
       - MAIL_TLD=${MAIL_TLD}
       - MAMMOUTH_IP=${MAMMOUTH_IP}
