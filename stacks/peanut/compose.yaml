@@ -12,6 +12,7 @@ services:
       - WEB_PORT=8080
       - WEB_USERNAME={{op://docker/peanut/username}}
       - WEB_PASSWORD={{op://docker/peanut/password}}
+      - DEBUG=true
     labels:
       # Traefik configuration
       traefik.enable: true
