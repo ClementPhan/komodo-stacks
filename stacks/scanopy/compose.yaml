@@ -1,0 +1,92 @@
+name: scanopy
+
+services:
+  daemon:
+    image: ghcr.io/scanopy/scanopy/daemon:latest
+    container_name: scanopy-daemon
+    network_mode: host
+    privileged: true
+    restart: unless-stopped
+    environment:
+      SCANOPY_LOG_LEVEL: info
+      SCANOPY_SERVER_URL: https://scanopy.${TLD}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:60073/api/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+    volumes:
+      - /mnt/software/applications/scanopy/daemon:/root/.config/scanopy/daemon
+      # Comment out the line below to disable docker discovery
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  postgres:
+    image: docker.io/library/postgres:18.6@sha256:06cad38a5d9f5d24b4d83d86def30795d5e4b757fedbf5281172b576dedcd941
+    environment:
+      POSTGRES_DB: scanopy
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: {{op://docker/scanopy/postgres/password}}
+    volumes:
+      - /mnt/software/applications/scanopy/postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - scanopy
+
+  server:
+    image: ghcr.io/scanopy/scanopy/server:latest
+    # ports:
+    #   - "60072:60072"
+    # Pass a .env alongside this file straight through to the server. Compose otherwise
+    # reads .env only to interpolate ${...} here, so settings that have no line below --
+    # every SCANOPY_SMTP_* variable among them -- would never reach the container.
+    # Optional: `docker compose up` works with no .env present.
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      SCANOPY_LOG_LEVEL: info
+      SCANOPY_DATABASE_URL: postgresql://postgres:{{op://docker/scanopy/postgres/password}}@postgres:5432/scanopy
+      SCANOPY_WEB_EXTERNAL_PATH: /app/static
+      SCANOPY_PUBLIC_URL: https://scanopy.${TLD}/
+      SCANOPY_INTEGRATED_DAEMON_URL: http://host.docker.internal:60073
+    labels:
+      traefik.enable: true
+      traefik.http.routers.scanopy.rule: Host(`scanopy.${TLD}`)
+      traefik.http.routers.scanopy.entrypoints: websecure
+      traefik.http.routers.scanopy.tls.certresolver: myresolver
+      traefik.http.services.scanopy.loadbalancer.server.port: 60072
+      # Homepage configuration
+      homepage.group: Network
+      homepage.name: Scanopy
+      homepage.icon: scanopy
+      homepage.href: https://scanopy.${TLD}/
+      homepage.description: Network device graphing
+    volumes:
+      - /mnt/software/applications/scanopy/server_data:/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      daemon:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      scanopy: {}
+      traefik_proxy: {}
+
+
+networks:
+  traefik_proxy:
+    external: true
+  scanopy:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/16
+          gateway: 172.31.0.1
