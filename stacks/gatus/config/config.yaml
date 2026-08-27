@@ -186,3 +186,8 @@ endpoints:
       - "[BODY].tasks.classifier_status == OK"
       - "[BODY].tasks.sanity_check_status == OK"
     <<: [*alerts, *ignore-redirect]
+
+  - name: Scanopy
+    group: Services
+    url: "https://scanopy.${TLD}"
+    <<: [*conditions, *alerts, *ignore-redirect]
