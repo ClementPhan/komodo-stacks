@@ -1,0 +1,13 @@
+[[stack]]
+name = "scanopy"
+tags = ["auto-start"]
+[stack.config]
+server = "Local"
+repo = "ClementPhan/komodo-stacks"
+run_directory = "./stacks/scanopy"
+pre_deploy.command = """
+sh ../../inject.sh [[OP_CONNECT_TOKEN]]
+"""
+environment = """
+TLD = [[TLD]]
+"""
