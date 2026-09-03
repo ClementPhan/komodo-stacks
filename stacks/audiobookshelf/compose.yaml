@@ -29,7 +29,7 @@ services:
       traefik_proxy: {}
     
   libation:
-    image: rmcrackan/libation:14.0.1@sha256:c902f978368131736f4de4e22520fd09e1891896611aee4e435d0c37c91f9497
+    image: rmcrackan/libation:14.0.2@sha256:5d1f50a99f0af1aefc1941c81ad1e43cb3ad0f941f470c619d9ff186d44ad438
     restart: always
     user: 0:0
     volumes:
