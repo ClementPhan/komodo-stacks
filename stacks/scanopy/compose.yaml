@@ -2,7 +2,7 @@ name: scanopy
 
 services:
   daemon:
-    image: ghcr.io/scanopy/scanopy/daemon:latest
+    image: ghcr.io/scanopy/scanopy/daemon:latest@sha256:ad2e7c645d93f9b7c84e1346331c678e93be31cb149ab15f01449b9f81cdafcb
     container_name: scanopy-daemon
     network_mode: host
     privileged: true
@@ -38,7 +38,7 @@ services:
       - scanopy
 
   server:
-    image: ghcr.io/scanopy/scanopy/server:latest
+    image: ghcr.io/scanopy/scanopy/server:latest@sha256:5759259d825f53a05145cb08cee9a993ae0fba1f3437a17cfa3ec47aaad4ed8d
     # ports:
     #   - "60072:60072"
     # Pass a .env alongside this file straight through to the server. Compose otherwise
