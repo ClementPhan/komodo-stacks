@@ -1,6 +1,6 @@
 services:
   influxdb:
-    image: influxdb:3.11.5-core
+    image: influxdb:3.11.4-core
     container_name: influxdb
     command:
       - influxdb3
