@@ -1,0 +1,37 @@
+services:
+  influxdb:
+    image: influxdb:3.11.5-core
+    container_name: influxdb
+    command:
+      - influxdb3
+      - serve
+      - --object-store=file
+      - --data-dir=/var/lib/influxdb3/data
+      - --plugin-dir=/var/lib/influxdb3/plugins
+    # ports:
+    #   - 8181:8181
+    user: {{op://docker/TrueNas/unpriviledged_user/uid}}:{{op://docker/TrueNas/unpriviledged_user/gid}} # should be owner of volumes
+    volumes:
+      - /mnt/bulk/media/applications/influxdb/data:/var/lib/influxdb3/data
+      - /mnt/bulk/media/applications/influxdb/plugins:/var/lib/influxdb3/plugins
+    restart: unless-stopped
+    labels:
+      traefik.enable: true
+      traefik.http.routers.influxdb.rule: Host(`influxdb.${TLD}`)
+      traefik.http.routers.influxdb.entrypoints: websecure
+      traefik.http.routers.influxdb.tls.certresolver: myresolver
+      traefik.http.services.influxdb.loadbalancer.server.port: 8181
+      # Homepage configuration
+      homepage.group: Media & Data
+      homepage.name: InfluxDB
+      homepage.icon: influxdb
+      homepage.href: https://influxdb.${TLD}/
+      homepage.description: Time series database
+    networks:
+      traefik_proxy: {}
+
+
+networks:
+  traefik_proxy:
+    external: true
+
