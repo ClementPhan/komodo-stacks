@@ -10,7 +10,7 @@ services:
       - --plugin-dir=/var/lib/influxdb3/plugins
     # ports:
     #   - 8181:8181
-    user: {{op://docker/TrueNas/unpriviledged_user/uid}}:{{op://docker/TrueNas/unpriviledged_user/gid}} # should be owner of volumes
+    # user: {{op://docker/TrueNas/unpriviledged_user/uid}}:{{op://docker/TrueNas/unpriviledged_user/gid}} # should be owner of volumes
     volumes:
       - /mnt/bulk/media/applications/influxdb/data:/var/lib/influxdb3/data
       - /mnt/bulk/media/applications/influxdb/plugins:/var/lib/influxdb3/plugins
