@@ -9,6 +9,9 @@ services:
       - --object-store=file
       - --data-dir=/var/lib/influxdb3/data
       - --plugin-dir=/var/lib/influxdb3/plugins
+      - --admin-token-file=/run/secrets/admin-token
+    secrets:
+      - admin-token
     # ports:
     #   - 8181:8181
     # user: {{op://docker/TrueNas/unpriviledged_user/uid}}:{{op://docker/TrueNas/unpriviledged_user/gid}} # should be owner of volumes
@@ -36,3 +39,6 @@ networks:
   traefik_proxy:
     external: true
 
+secrets:
+  admin-token:
+    file: ${PWD}/admin-token.json

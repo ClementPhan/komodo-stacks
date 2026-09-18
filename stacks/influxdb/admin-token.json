@@ -1,0 +1,5 @@
+{
+  "token": "{{op://docker/influxdb/tokens/admin}}",
+  "name": "admin",
+  "description": "Admin token for automated deployment"
+}
