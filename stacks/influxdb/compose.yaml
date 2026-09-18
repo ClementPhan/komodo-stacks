@@ -1,6 +1,6 @@
 services:
   influxdb:
-    image: influxdb:3.11.4-core
+    image: ghcr.io/wuan/influxdb3-core-sandybridge:3.10.5
     container_name: influxdb
     command:
       - influxdb3
