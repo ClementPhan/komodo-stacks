@@ -4,13 +4,6 @@ default-conditions: &conditions
     - "[STATUS] == 200"
     - "[CERTIFICATE_EXPIRATION] > 48h"
 
-adguard-dns-test: &dns-test
-  dns:
-    query-name: "healthcheck.adguardhome.test."
-    query-type: "A"
-  conditions:
-    - "[DNS_RCODE] == NOERROR"
-
 ignore-redirections: &ignore-redirect
   client:
     ignore-redirect: true
@@ -71,17 +64,6 @@ endpoints:
     conditions:
       - "[DOMAIN_EXPIRATION] > 360h"
     <<: *alerts
-
-  # DNS
-  - name: DNS on Hub
-    group: DNS
-    url: "${HUB_IP}" # Address of the DNS server to use
-    <<: [*dns-test, *alerts]
-
-  - name: DNS on Mammouth
-    group: DNS
-    url: "${MAMMOUTH_IP}" # Address of the DNS server to use
-    <<: [*dns-test, *alerts]
 
   # Administration
   - name: Komodo
@@ -151,24 +133,6 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[STATUS] == 204"
     <<: [*alerts, *ignore-redirect]
-
-  - name: AdGuard on Mammouth
-    group: Services
-    url: "https://adguard.${TLD}/login.html"
-    <<: [*conditions, *alerts, *ignore-redirect]
-
-  - name: AdGuard on Hub
-    group: Services
-    url: "https://hub.${TLD}:3000"
-    conditions:
-      - "[STATUS] == 401"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
-    <<: [*alerts, *ignore-redirect]
-
-  - name: AdGuard Sync
-    group: Services
-    url: "https://adguard-sync.${TLD}"
-    <<: [*conditions, *alerts, *ignore-redirect]
 
   - name: Paperless
     group: Services
