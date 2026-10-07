@@ -130,7 +130,7 @@ services:
       - default
 
   sftp:
-    image: atmoz/sftp:debian@sha256:77bbedb7f120c07630c4181346dd5dc28fc22db53d8f847b0cf9c710a22a6113
+    image: atmoz/sftp:debian@sha256:f308cffe27242286d1e93a548dc5a581223b963e9b044d9e452594ef30dd05bd
     restart: always
     volumes:
         - /mnt/software/applications/paperlessngx/consume:/home/paperless/consume
