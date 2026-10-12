@@ -57,6 +57,8 @@ services:
     extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/ml-hardware-acceleration
       file: hwaccel.ml.yaml
       service: openvino # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
+    environment:
+      - MACHINE_LEARNING_MODEL_REVISION=v2
     volumes:
       - /mnt/software/applications/immich/model-cache:/cache
     networks:
