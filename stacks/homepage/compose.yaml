@@ -34,14 +34,12 @@ services:
       traefik.http.routers.homepage.tls.certresolver: myresolver
       traefik.http.services.homepage.loadbalancer.server.port: 3000
       # Router for redirection to base domain
-      traefik.http.routers.homepage_redirect.rule: HostRegexp(`([a-zA-Z0-9\-]\.)?${TLD}`) || HostRegexp(`([a-zA-Z0-9\-]+\.)?${OLD_TLD}`)
+      traefik.http.routers.homepage_redirect.rule: HostRegexp(`([a-zA-Z0-9\-]\.)?${TLD}`)
       traefik.http.routers.homepage_redirect.priority: 2
       traefik.http.routers.homepage_redirect.entrypoints: websecure
       traefik.http.routers.homepage_redirect.tls.certresolver: myresolver
       traefik.http.routers.homepage_redirect.tls.domains[0].main: '${TLD}'
       traefik.http.routers.homepage_redirect.tls.domains[1].main: '*.${TLD}'
-      traefik.http.routers.homepage_redirect.tls.domains[2].main: '${OLD_TLD}'
-      traefik.http.routers.homepage_redirect.tls.domains[3].main: '*.${OLD_TLD}'
       traefik.http.routers.homepage_redirect.middlewares: 'redirection'
       traefik.http.middlewares.redirection.redirectregex.regex: .*
       traefik.http.middlewares.redirection.redirectregex.replacement: https://www.${TLD}
