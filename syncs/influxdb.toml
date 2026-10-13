@@ -1,0 +1,14 @@
+[[stack]]
+name = "influxdb"
+description = "Time series database"
+tags = ["auto-start"]
+[stack.config]
+server = "Local"
+repo = "ClementPhan/komodo-stacks"
+run_directory = "./stacks/influxdb"
+pre_deploy.command = """
+sh ../../inject.sh [[OP_CONNECT_TOKEN]]
+"""
+environment = """
+TLD = [[TLD]]
+"""
