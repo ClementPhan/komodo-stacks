@@ -16,7 +16,7 @@ services:
       - "data:/home/opuser/.op/data"
   op-cli:
     container_name: op-cli
-    image: 1password/op:2.41.0@sha256:c218de9c39ac1a65ca1e98b634aa132bee1ff94d762d01d5cdfeebbc3413c697
+    image: 1password/op:2.41.1@sha256:86c9f8c1961a87f4bcf4780f15c564c21f76ba5822635614b6b6d8a1e22fdbea
     tty: true # keep container running
     environment:
       - OP_CONNECT_HOST=http://op-connect-api:8080
