@@ -2,7 +2,7 @@ name: scanopy
 
 services:
   daemon:
-    image: ghcr.io/scanopy/scanopy/daemon:v0.19.1@sha256:d4676d056737f666d14451dacb791d84aba03d6c4d415623e9a7f6aa9b11fec7
+    image: ghcr.io/scanopy/scanopy/daemon:v0.19.3@sha256:fb8b0e32408a4b1b7ebc7754716241c7a241d948ead7d9e3b7ad46fde4323548
     container_name: scanopy-daemon
     network_mode: host
     privileged: true
