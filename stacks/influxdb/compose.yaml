@@ -1,6 +1,6 @@
 services:
   influxdb2:
-    image: influxdb:2
+    image: influxdb:2.9.1
     # ports:
     #   - 8086:8086
     environment:
