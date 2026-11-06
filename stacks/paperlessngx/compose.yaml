@@ -112,7 +112,7 @@ services:
       traefik_proxy: {}
 
   gotenberg:
-    image: docker.io/gotenberg/gotenberg:8.39@sha256:13672f317b443c793e972b1bd2155ec62a3e7b6891b411e8196442cc053ee5f5
+    image: docker.io/gotenberg/gotenberg:9.1@sha256:150c1dec38ccb51905f6bd29442706668f2442fb5d290d9eb234708dc054dd1a
     restart: always
     # The gotenberg chromium route is used to convert .eml files. We do not
     # want to allow external content like tracking pixels or even javascript.
