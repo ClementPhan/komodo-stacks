@@ -228,7 +228,7 @@ endpoints:
 
   - name: Mail Archiver
     group: Services
-    url: "https://mail-archiver.${TLD}"
+    url: "https://mail-archiver.${TLD}/Auth/Login"
     <<: [*conditions, *alerts, *ignore-redirect]
 
   - name: Navidrome
