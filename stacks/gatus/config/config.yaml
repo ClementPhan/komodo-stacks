@@ -230,3 +230,12 @@ endpoints:
     group: Services
     url: "https://mailarchiver.${TLD}"
     <<: [*conditions, *alerts, *ignore-redirect]
+
+  - name: Navidrome
+    group: Services
+    url: "https://navidrome.${TLD}/api/v1/server"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].setupRequired == false"
+    <<: [*alerts, *ignore-redirect]
