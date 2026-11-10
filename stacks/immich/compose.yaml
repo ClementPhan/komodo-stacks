@@ -102,4 +102,3 @@ networks:
   default:
   traefik_proxy:
     external: true
-      

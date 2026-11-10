@@ -25,7 +25,7 @@ services:
       - ${PWD}/config:/app/config # Make sure your local config directory exists
     environment:
       HOMEPAGE_ALLOWED_HOSTS: www.${TLD}  # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
-      HOMEPAGE_VAR_TLD: ${TLD} 
+      HOMEPAGE_VAR_TLD: ${TLD}
     labels:
       traefik.enable: true
       # Router for homepage
