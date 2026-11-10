@@ -4,7 +4,7 @@ tags = ["auto-start", "auto-stop"]
 [stack.config]
 server = "Local"
 repo = "ClementPhan/komodo-stacks"
-run_directory = "./stacks/immich"
+run_directory = "stacks/immich"
 env_file_path = "komodo.env"
 additional_env_files = [
   { path = ".env", track = true }

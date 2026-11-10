@@ -5,7 +5,7 @@ tags = ["auto-start"]
 [stack.config]
 server = "Local"
 repo = "ClementPhan/komodo-stacks"
-run_directory = "./stacks/traefik"
+run_directory = "stacks/traefik"
 config_files = [
   { path = "config/traefik.yaml", requires = "Restart" },
   { path = "config/file_provider/komodo.yaml" }

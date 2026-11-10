@@ -4,7 +4,7 @@ tags = ["auto-start"]
 [stack.config]
 server = "Local"
 repo = "ClementPhan/komodo-stacks"
-run_directory = "./stacks/audiobookshelf"
+run_directory = "stacks/audiobookshelf"
 config_files = [
   { path = "config/Settings.json", services = ["libation"], requires = "Redeploy" },
   { path = "config/AccountsSettings.json", services = ["libation"], requires = "Redeploy" }
