@@ -39,3 +39,10 @@ jobs:
       - uses: actions/checkout@v7
       - name: Test uptime monitoring coverage
         run: python3 -m unittest 'tests/test_uptime_monitoring.py'
+
+  validate-traefik-routing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Test Traefik routing
+        run: python3 -m unittest 'tests/test_traefik.py'
