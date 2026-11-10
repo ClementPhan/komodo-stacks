@@ -1,7 +1,7 @@
 services:
   navidrome:
     image: deluan/navidrome:0.64.2@sha256:38dc2727bfcfd5ede290f8ada114fc90368146f265ae4701ddddbcbe2a44ee52
-    user: ${UNPRIVILEGED_UID}:${UNPRIVILEGED_GID} # should be owner of volumes
+    user: ${UNPRIVILEGED_UID}:${UNPRIVILEGED_GID}  # should be owner of volumes
     # ports:
     #   - "4533:4533"
     restart: unless-stopped

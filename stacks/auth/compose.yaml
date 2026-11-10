@@ -23,7 +23,7 @@ services:
       homepage.description: Authentication service
     # Optional healthcheck
     healthcheck:
-      test: [ "CMD", "/app/pocket-id", "healthcheck" ]
+      test: ["CMD", "/app/pocket-id", "healthcheck"]
       interval: 1m30s
       timeout: 5s
       retries: 2
