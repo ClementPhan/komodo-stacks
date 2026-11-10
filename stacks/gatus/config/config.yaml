@@ -206,7 +206,7 @@ endpoints:
     group: Services
     url: "https://influxdb.${TLD}/health"
     conditions:
-      - "[STATUS] == 204"
+      - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY].status == pass"
     <<: [*alerts, *ignore-redirect]
