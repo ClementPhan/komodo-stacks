@@ -65,7 +65,6 @@ endpoints:
       - "[DOMAIN_EXPIRATION] > 360h"
     <<: *alerts
 
-
   # Administration
   - name: Komodo
     group: Administration
@@ -160,6 +159,15 @@ endpoints:
   - name: Audiobookshelf
     group: Services
     url: "https://audiobookshelf.${TLD}/healthcheck"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY] == OK"
+    <<: [*alerts, *ignore-redirect]
+
+  - name: freshrss
+    group: Services
+    url: "https://freshrss.${TLD}/api/greader.php"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
