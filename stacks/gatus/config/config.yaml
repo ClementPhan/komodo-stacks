@@ -201,3 +201,12 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY].res == pong"
     <<: [*alerts, *ignore-redirect]
+
+  - name: influxdb
+    group: Services
+    url: "https://influxdb.${TLD}/health"
+    conditions:
+      - "[STATUS] == 204"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].status == pass"
+    <<: [*alerts, *ignore-redirect]
