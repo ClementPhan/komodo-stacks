@@ -178,3 +178,8 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY] == OK"
     <<: [*alerts, *ignore-redirect]
+
+  - name: Handbrake
+    group: Services
+    url: "https://handbrake.${TLD}"
+    <<: [*conditions, *alerts, *ignore-redirect]
