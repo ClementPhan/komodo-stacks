@@ -225,3 +225,8 @@ endpoints:
       - "[BODY].status == pass"
       - "[BODY].checks[0].status == pass"
     <<: [*alerts, *ignore-redirect]
+
+  - name: Mail Archiver
+    group: Services
+    url: "https://mailarchiver.${TLD}"
+    <<: [*conditions, *alerts, *ignore-redirect]
