@@ -215,3 +215,13 @@ endpoints:
     group: Services
     url: "https://jellyfin.${TLD}/health"
     <<: [*conditions, *alerts, *ignore-redirect]
+
+  - name: LubeLogger
+    group: Services
+    url: "https://lubelogger.${TLD}/health"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].status == pass"
+      - "[BODY].checks[0].status == pass"
+    <<: [*alerts, *ignore-redirect]
