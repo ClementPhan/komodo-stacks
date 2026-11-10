@@ -4,7 +4,7 @@ tags = ["auto-start", "auto-stop"]
 [stack.config]
 server = "Local"
 repo = "ClementPhan/komodo-stacks"
-run_directory = "./stacks/homebox"
+run_directory = "stacks/homebox"
 pre_deploy.command = """
 sh ../../inject.sh [[OP_CONNECT_TOKEN]]
 """

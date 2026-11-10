@@ -4,7 +4,7 @@ tags = ["auto-start"]
 [stack.config]
 server = "Local"
 repo = "ClementPhan/komodo-stacks"
-run_directory = "./stacks/dozzle"
+run_directory = "stacks/dozzle"
 pre_deploy.command = """
 sh ../../inject.sh [[OP_CONNECT_TOKEN]]
 """
