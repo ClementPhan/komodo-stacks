@@ -78,5 +78,4 @@ jobs:
       - name: Inject dummy secrets for YAML parsing
         run: bash tests/inject_dummy_secrets.sh
       - name: Lint YAML files
-        run: >-
-          yamllint -d relaxed .github/workflows stacks
+        run: yamllint -c .yamllint .github/workflows stacks
