@@ -156,3 +156,12 @@ endpoints:
     group: Services
     url: "https://scanopy.${TLD}"
     <<: [*conditions, *alerts, *ignore-redirect]
+
+  - name: Audiobookshelf
+    group: Services
+    url: "https://audiobookshelf.${TLD}/healthcheck"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY] == OK"
+    <<: [*alerts, *ignore-redirect]
