@@ -133,13 +133,13 @@ services:
     image: atmoz/sftp:debian@sha256:54efe2a6cda236d713042e17a836d970342eea5a7568e4f60800432cec4da205
     restart: always
     volumes:
-        - /mnt/software/applications/paperlessngx/consume:/home/paperless/consume
-        - ${PWD}/sftp_config/paperless/id_rsa.pub:/home/paperless/.ssh/keys/id_rsa.pub:ro
-        - ${PWD}/sftp_config/sshd_config:/etc/ssh/sshd_config:ro
-        - ${PWD}/sftp_config/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key:ro
-        - ${PWD}/sftp_config/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key:ro
+      - /mnt/software/applications/paperlessngx/consume:/home/paperless/consume
+      - ${PWD}/sftp_config/paperless/id_rsa.pub:/home/paperless/.ssh/keys/id_rsa.pub:ro
+      - ${PWD}/sftp_config/sshd_config:/etc/ssh/sshd_config:ro
+      - ${PWD}/sftp_config/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key:ro
+      - ${PWD}/sftp_config/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key:ro
     ports:
-        - {{op://docker/TrueNas/config/services_ip}}:2552:22
+      - {{op://docker/TrueNas/config/services_ip}}:2552:22
     command: paperless::1000
 
 volumes:
