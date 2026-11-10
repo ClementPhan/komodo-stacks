@@ -26,12 +26,12 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: Inject secrets
-        run: bash inject_dummy_secrets.sh
+        run: bash tests/inject_dummy_secrets.sh
 
       - name: Validate compose stacks
         env:
           TLD: example.com
-        run: bash validate_compose_files.sh
+        run: bash tests/validate_compose_files.sh
 
   validate-uptime-coverage:
     runs-on: ubuntu-latest
