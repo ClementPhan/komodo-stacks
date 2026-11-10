@@ -202,7 +202,7 @@ endpoints:
       - "[BODY].res == pong"
     <<: [*alerts, *ignore-redirect]
 
-  - name: influxdb
+  - name: InfluxDB
     group: Services
     url: "https://influxdb.${TLD}/health"
     conditions:
