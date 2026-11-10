@@ -192,3 +192,12 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY].health == true"
     <<: [*alerts, *ignore-redirect]
+
+  - name: Immich
+    group: Services
+    url: "https://immich.${TLD}/server/ping"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].res == pong"
+    <<: [*alerts, *ignore-redirect]
