@@ -186,7 +186,7 @@ endpoints:
 
   - name: Homebox
     group: Services
-    url: "https://homebox.${TLD}"
+    url: "https://homebox.${TLD}/api/v1/status"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
@@ -195,7 +195,7 @@ endpoints:
 
   - name: Immich
     group: Services
-    url: "https://immich.${TLD}/server/ping"
+    url: "https://immich.${TLD}/api/server/ping"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
