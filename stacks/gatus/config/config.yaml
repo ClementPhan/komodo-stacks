@@ -183,3 +183,12 @@ endpoints:
     group: Services
     url: "https://handbrake.${TLD}"
     <<: [*conditions, *alerts, *ignore-redirect]
+
+  - name: Homebox
+    group: Services
+    url: "https://homebox.${TLD}"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].health == true"
+    <<: [*alerts, *ignore-redirect]
