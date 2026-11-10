@@ -2,7 +2,7 @@ name: audiobookshelf
 
 services:
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.37.2@sha256:b897c33f05972fb1bf484f7487bc878fa91ec8691335c1db6e2929c3a7658efa 
+    image: ghcr.io/advplyr/audiobookshelf:2.37.2@sha256:b897c33f05972fb1bf484f7487bc878fa91ec8691335c1db6e2929c3a7658efa
     # ports:
     #   - 13378:80
     volumes:
@@ -27,7 +27,7 @@ services:
       homepage.description: Audiobook and podcast repository
     networks:
       traefik_proxy: {}
-    
+
   libation:
     image: rmcrackan/libation:14.2.5@sha256:7bb47a417311d154c6691747320d0b62ce15527280ad99f0e2a85ac9a6b07e40
     restart: always
@@ -42,4 +42,3 @@ services:
 networks:
   traefik_proxy:
     external: true
-      

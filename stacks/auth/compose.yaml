@@ -34,4 +34,3 @@ services:
 networks:
   traefik_proxy:
     external: true
-    
