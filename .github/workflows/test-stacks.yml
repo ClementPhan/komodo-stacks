@@ -53,3 +53,15 @@ jobs:
       - uses: actions/checkout@v7
       - name: Test stack sync coverage
         run: python3 -m unittest 'tests/test_stack_syncs.py'
+
+  validate-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install Ruff
+        run: python -m pip install ruff
+      - name: Lint Python files
+        run: ruff check tests/
