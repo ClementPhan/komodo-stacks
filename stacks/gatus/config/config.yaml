@@ -239,3 +239,12 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY].setupRequired == false"
     <<: [*alerts, *ignore-redirect]
+
+  - name: Pinchflat
+    group: Services
+    url: "https://pinchflat.${TLD}/healthcheck"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].status == ok"
+    <<: [*alerts, *ignore-redirect]
