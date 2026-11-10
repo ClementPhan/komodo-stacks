@@ -65,7 +65,6 @@ endpoints:
       - "[DOMAIN_EXPIRATION] > 360h"
     <<: *alerts
 
-
   # Administration
   - name: Komodo
     group: Administration
@@ -81,6 +80,11 @@ endpoints:
   - name: Dozzle
     group: Administration
     url: "https://dozzle.${TLD}/healthcheck"
+    <<: [*conditions, *alerts, *ignore-redirect]
+
+  - name: gatus
+    group: Services
+    url: "https://gatus.${TLD}"
     <<: [*conditions, *alerts, *ignore-redirect]
 
   # Network and infrastructure
@@ -156,3 +160,100 @@ endpoints:
     group: Services
     url: "https://scanopy.${TLD}"
     <<: [*conditions, *alerts, *ignore-redirect]
+
+  - name: Audiobookshelf
+    group: Services
+    url: "https://audiobookshelf.${TLD}/healthcheck"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY] == OK"
+    <<: [*alerts, *ignore-redirect]
+
+  - name: freshrss
+    group: Services
+    url: "https://freshrss.${TLD}/api/greader.php"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY] == OK"
+    <<: [*alerts, *ignore-redirect]
+
+  - name: Handbrake
+    group: Services
+    url: "https://handbrake.${TLD}"
+    <<: [*conditions, *alerts, *ignore-redirect]
+
+  - name: Homebox
+    group: Services
+    url: "https://homebox.${TLD}"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].health == true"
+    <<: [*alerts, *ignore-redirect]
+
+  - name: Immich
+    group: Services
+    url: "https://immich.${TLD}/server/ping"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].res == pong"
+    <<: [*alerts, *ignore-redirect]
+
+  - name: InfluxDB
+    group: Services
+    url: "https://influxdb.${TLD}/health"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].status == pass"
+    <<: [*alerts, *ignore-redirect]
+
+  - name: Jellyfin
+    group: Services
+    url: "https://jellyfin.${TLD}/health"
+    <<: [*conditions, *alerts, *ignore-redirect]
+
+  - name: LubeLogger
+    group: Services
+    url: "https://lubelogger.${TLD}/health"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].status == pass"
+      - "[BODY].checks[0].status == pass"
+    <<: [*alerts, *ignore-redirect]
+
+  - name: Mail Archiver
+    group: Services
+    url: "https://mail-archiver.${TLD}"
+    <<: [*conditions, *alerts, *ignore-redirect]
+
+  - name: Navidrome
+    group: Services
+    url: "https://navidrome.${TLD}/api/v1/server"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].setupRequired == false"
+    <<: [*alerts, *ignore-redirect]
+
+  - name: Pinchflat
+    group: Services
+    url: "https://pinchflat.${TLD}/healthcheck"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY].status == ok"
+    <<: [*alerts, *ignore-redirect]
+
+  - name: Homepage
+    group: Services
+    url: "https://www.${TLD}/api/healthcheck"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY] == up"
+    <<: [*alerts, *ignore-redirect]
