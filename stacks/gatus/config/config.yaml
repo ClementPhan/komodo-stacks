@@ -82,6 +82,11 @@ endpoints:
     url: "https://dozzle.${TLD}/healthcheck"
     <<: [*conditions, *alerts, *ignore-redirect]
 
+  - name: gatus
+    group: Services
+    url: "https://gatus.${TLD}"
+    <<: [*conditions, *alerts, *ignore-redirect]
+
   # Network and infrastructure
   - name: Box
     group: Network
