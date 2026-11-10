@@ -228,17 +228,13 @@ endpoints:
 
   - name: Mail Archiver
     group: Services
-    url: "https://mail-archiver.${TLD}"
+    url: "https://mail-archiver.${TLD}/Auth/Login"
     <<: [*conditions, *alerts, *ignore-redirect]
 
   - name: Navidrome
     group: Services
-    url: "https://navidrome.${TLD}/api/v1/server"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
-      - "[BODY].setupRequired == false"
-    <<: [*alerts, *ignore-redirect]
+    url: "https://navidrome.${TLD}/app/#/login"
+    <<: [*conditions, *alerts, *ignore-redirect]
 
   - name: Pinchflat
     group: Services
