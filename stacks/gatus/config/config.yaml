@@ -210,3 +210,8 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY].status == pass"
     <<: [*alerts, *ignore-redirect]
+
+  - name: Jellyfin
+    group: Services
+    url: "https://jellyfin.${TLD}/health"
+    <<: [*conditions, *alerts, *ignore-redirect]
