@@ -10,4 +10,6 @@ sh ../../inject.sh [[OP_CONNECT_TOKEN]]
 """
 environment = """
 TLD = [[TLD]]
+UNPRIVILEGED_UID = [[UNPRIVILEGED_UID]]
+UNPRIVILEGED_GID = [[UNPRIVILEGED_GID]]
 """
