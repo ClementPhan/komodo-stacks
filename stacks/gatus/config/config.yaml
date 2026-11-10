@@ -248,3 +248,12 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY].status == ok"
     <<: [*alerts, *ignore-redirect]
+
+  - name: Homepage
+    group: Services
+    url: "https://www.${TLD}/api/healthcheck"
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[BODY] == up"
+    <<: [*alerts, *ignore-redirect]
