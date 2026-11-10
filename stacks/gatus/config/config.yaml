@@ -233,7 +233,7 @@ endpoints:
 
   - name: Navidrome
     group: Services
-    url: "https://navidrome.${TLD}/api/v1/server"
+    url: "https://navidrome.${TLD}/app/#/login"
     conditions:
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 48h"
