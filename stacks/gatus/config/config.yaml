@@ -234,11 +234,7 @@ endpoints:
   - name: Navidrome
     group: Services
     url: "https://navidrome.${TLD}/app/#/login"
-    conditions:
-      - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
-      - "[BODY].setupRequired == false"
-    <<: [*alerts, *ignore-redirect]
+    <<: [*conditions, *alerts, *ignore-redirect]
 
   - name: Pinchflat
     group: Services
