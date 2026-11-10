@@ -6,7 +6,7 @@ server = "Local"
 repo = "ClementPhan/komodo-stacks"
 run_directory = "./stacks/gatus"
 config_files = [
-  { path = "config/config.yaml", services = ["gatus"] },
+  { path = "config/config.yaml", services = ["gatus"], requires = "Redeploy"  },
   { path = "lets-encrypt.pem", services = ["gatus"], requires = "Redeploy" }
 ]
 pre_deploy.command = """
