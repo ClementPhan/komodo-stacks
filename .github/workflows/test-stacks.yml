@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains two jobs
-  validate-stacks:
+  validate-compose-syntax:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -33,7 +33,7 @@ jobs:
           TLD: example.com
         run: bash tests/validate_compose_files.sh
 
-  validate-uptime-coverage:
+  validate-gatus-coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -47,14 +47,14 @@ jobs:
       - name: Test Traefik routing
         run: python3 -m unittest 'tests/test_traefik.py'
 
-  validate-stack-syncs:
+  validate-sync-coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - name: Test stack sync coverage
         run: python3 -m unittest 'tests/test_stack_syncs.py'
 
-  validate-python:
+  validate-python-linting:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -66,7 +66,7 @@ jobs:
       - name: Lint Python files
         run: ruff check tests/
 
-  validate-yaml:
+  validate-yaml-linting:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
