@@ -1,27 +1,12 @@
-import re
 import shutil
 import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 
+from tests.stack_helpers import inject_dummy_secrets
+
 ROOT = Path(__file__).resolve().parents[1]
-
-
-def inject_dummy_secrets(test_root):
-    replacements = (
-        (r"(?:\{\{)?op://docker/home_address/url/url(?:\}\})?", "example.com"),
-        (r"(?:\{\{)?op://docker/TrueNas/config/services_ip(?:\}\})?", "10.0.0.0"),
-        (r"(?:\{\{)?op://docker/[a-zA-Z0-9/\-]*(?:\}\})?", "DUMMY_SECRET"),
-    )
-    for path in test_root.rglob("*"):
-        if path.is_file() and path.suffix in {".yaml", ".yml", ".env"}:
-            with path.open(newline="") as source:
-                contents = source.read().replace("\r\n", "\n")
-            for pattern, replacement in replacements:
-                contents = re.sub(pattern, replacement, contents)
-            with path.open("w", newline="") as destination:
-                destination.write(contents)
 
 
 class YamlLintTests(unittest.TestCase):
