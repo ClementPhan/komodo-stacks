@@ -12,6 +12,9 @@ services:
 
       # TimeZone Settings
       - TimeZone__DisplayTimeZoneId=Europe/Paris
+
+      # Original Message Settings
+      - RawMessages__Enabled=true
     # ports:
     #   - "5000:5000"
     labels:
