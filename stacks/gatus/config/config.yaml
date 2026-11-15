@@ -254,11 +254,11 @@ endpoints:
       - "[BODY] == up"
     <<: [*alerts, *ignore-redirect]
 
-  ## Tasks
+## Tasks
+external-endpoints:
   - name: Gul Certificate Renewal
     group: Tasks
     token: "${GATUS_TOKEN}"
     heartbeat:
       interval: 25h
     <<: [*alerts]
-    
