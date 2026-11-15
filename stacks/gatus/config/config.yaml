@@ -253,3 +253,12 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 48h"
       - "[BODY] == up"
     <<: [*alerts, *ignore-redirect]
+
+  ## Tasks
+  - name: Gul Certificate Renewal
+    group: Tasks
+    token: "${GATUS_TOKEN}"
+    heartbeat:
+      interval: 25h
+    <<: [*alerts]
+    
