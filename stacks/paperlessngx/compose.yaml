@@ -31,10 +31,10 @@
 
 services:
   broker:
-    image: docker.io/library/redis:8.10.3@sha256:1f88291b4c57bdf249f02eb085a8669889b2d2954e91d4de5118a5da6b78dd53
+    image: docker.io/valkey/valkey:9-alpine
     restart: always
     volumes:
-      - /mnt/software/applications/paperlessngx/redisdata:/data
+      - valkeydata:/data
     labels:
       - docker-volume-backup.stop-during-backup=true
     networks:
@@ -143,11 +143,7 @@ services:
     command: paperless::1000
 
 volumes:
-  data: null
-  media: null
-  pgdata: null
-  consume: null
-  redisdata: null
+  valkeydata: null
 
 networks:
   default: {}
