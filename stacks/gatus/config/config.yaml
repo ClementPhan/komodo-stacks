@@ -262,3 +262,10 @@ external-endpoints:
     heartbeat:
       interval: 25h
     <<: [*alerts]
+
+  - name: Mammouth SMART Disk Checks
+    group: Tasks
+    token: "${GATUS_TOKEN}"
+    heartbeat:
+      interval: 25h
+    <<: [*alerts]
