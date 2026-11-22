@@ -38,7 +38,7 @@ services:
       - scanopy
 
   server:
-    image: ghcr.io/scanopy/scanopy/server:v0.20.0@sha256:8af845c3e7db7ad767ad5d2c1257928e5a4024db6d5068d36dfe080d6ca0b8bc
+    image: ghcr.io/scanopy/scanopy/server:v0.20.1@sha256:627f158c515c989f69f383d873a05e56d85341a077a87ece497632cf325b9996
     # ports:
     #   - "60072:60072"
     # Pass a .env alongside this file straight through to the server. Compose otherwise
