@@ -1,0 +1,30 @@
+services:
+  evcc:
+    container_name: evcc
+    image: evcc/evcc:latest
+    ports:
+      # - 7070:7070/tcp
+      - 8887:8887/tcp # For OCPP
+    volumes:
+      - /mnt/software/applications/evcc:/root/.evcc
+      # - ${PWD}/config/evcc.yaml:/etc/evcc.yaml # optional
+    restart: unless-stopped 
+    labels:
+      traefik.enable: true
+      traefik.http.routers.evcc.rule: Host(`evcc.${TLD}`)
+      traefik.http.routers.evcc.entrypoints: websecure
+      traefik.http.routers.evcc.tls.certresolver: myresolver
+      traefik.http.services.evcc.loadbalancer.server.port: 7070
+      # Homepage configuration
+      homepage.group: Network
+      homepage.name: EVCC
+      homepage.icon: evcc
+      homepage.href: https://evcc.${TLD}/
+      homepage.description: Charging station management
+    networks:
+      - traefik_proxy
+
+
+networks:
+  traefik_proxy:
+    external: true
