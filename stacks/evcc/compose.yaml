@@ -4,11 +4,11 @@ services:
     image: evcc/evcc:latest
     ports:
       # - 7070:7070/tcp
-      - 8887:8887/tcp # For OCPP
+      - 8887:8887/tcp  # For OCPP
     volumes:
       - /mnt/software/applications/evcc:/root/.evcc
       # - ${PWD}/config/evcc.yaml:/etc/evcc.yaml # optional
-    restart: unless-stopped 
+    restart: unless-stopped
     labels:
       traefik.enable: true
       traefik.http.routers.evcc.rule: Host(`evcc.${TLD}`)
