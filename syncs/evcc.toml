@@ -1,0 +1,13 @@
+[[stack]]
+name = "evcc"
+tags = ["auto-start"]
+[stack.config]
+server = "Local"
+repo = "ClementPhan/komodo-stacks"
+run_directory = "stacks/evcc"
+config_files = [
+  { path = "config/evcc.yaml", services = ["evcc"], requires = "Redeploy" },
+]
+environment = """
+TLD = [[TLD]]
+"""
