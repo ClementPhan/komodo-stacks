@@ -254,6 +254,11 @@ endpoints:
       - "[BODY] == up"
     <<: [*alerts, *ignore-redirect]
 
+  - name: EVCC
+    group: Services
+    url: "https://evcc.${TLD}"
+    <<: [*conditions, *alerts, *ignore-redirect]
+
 ## Tasks
 external-endpoints:
   - name: Gul Certificate Renewal
